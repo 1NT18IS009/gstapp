@@ -7,11 +7,11 @@ class InactiveCustomerService {
   InactiveCustomerService({this.uid});
 
   final CollectionReference companyCollection =
-      Firestore.instance.collection('company');
+      FirebaseFirestore.instance.collection('company');
 
   Stream<List<InactiveCustomer>> get inactiveCustomerData {
     return companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('ledger')
         .where('closingbalance', isEqualTo: 0)
         .where('restat_primary_group_type', isEqualTo: 'Sundry Debtors')
@@ -20,36 +20,36 @@ class InactiveCustomerService {
   }
 
   List<InactiveCustomer> _inactiveCustomerData(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return InactiveCustomer(
-        name: doc.data['name'].toString() ?? '',
-        masterId: doc.data['master_id'].toString() ?? '',
-        currencyName: doc.data['currencyname'].toString() ?? '',
-        openingBalance: doc.data['openingbalance'].toString() ?? '',
-        closingBalance: doc.data['closingbalance'].toString() ?? '',
-        parentid: doc.data['parentcode'].toString() ?? '',
-        contact: doc.data['contact'].toString() ?? '',
-        state: doc.data['state'].toString() ?? '',
-        email: doc.data['email'].toString() ?? '',
-        phone: doc.data['phone'].toString() ?? '',
-        guid: doc.data['guid'].toString() ?? '',
-        // lastPaymentDate: doc.data['restat_last_payment_date'].toString() ?? '',
+        name: doc['name'].toString() ?? '',
+        masterId: doc['master_id'].toString() ?? '',
+        currencyName: doc['currencyname'].toString() ?? '',
+        openingBalance: doc['openingbalance'].toString() ?? '',
+        closingBalance: doc['closingbalance'].toString() ?? '',
+        parentid: doc['parentcode'].toString() ?? '',
+        contact: doc['contact'].toString() ?? '',
+        state: doc['state'].toString() ?? '',
+        email: doc['email'].toString() ?? '',
+        phone: doc['phone'].toString() ?? '',
+        guid: doc['guid'].toString() ?? '',
+        // lastPaymentDate: doc['restat_last_payment_date'].toString() ?? '',
         // lastPurchaseDate:
-        //     doc.data['restat_last_purchase_date'].toString() ?? '',
-        // lastReceiptDate: doc.data['restat_last_receipt_date'].toString() ?? '',
-        // lastSalesDate: doc.data['restat_last_sales_date'].toString() ?? '',
-        // meanPayment: doc.data['restat_mean_payment'].toString() ?? '',
-        // meanPurchase: doc.data['restat_mean_purchase'].toString() ?? '',
-        // meanReceipt: doc.data['restat_mean_receipt'].toString() ?? '',
-        // meanSales: doc.data['restat_mean_sales'].toString() ?? '',
-        partyGuid: doc.data['guid'].toString() ?? '',
-        // totalPayables: doc.data['restat_total_payables'].toString() ?? '',
-        // totalPayment: doc.data['restat_total_payment'].toString() ?? '',
-        // totalPurchase: doc.data['restat_total_purchase'].toString() ?? '',
-        // totalReceipt: doc.data['restat_total_receipt'].toString() ?? '',
-        // totalReceivables: doc.data['restat_total_receivables'].toString() ?? '',
+        //     doc['restat_last_purchase_date'].toString() ?? '',
+        // lastReceiptDate: doc['restat_last_receipt_date'].toString() ?? '',
+        // lastSalesDate: doc['restat_last_sales_date'].toString() ?? '',
+        // meanPayment: doc['restat_mean_payment'].toString() ?? '',
+        // meanPurchase: doc['restat_mean_purchase'].toString() ?? '',
+        // meanReceipt: doc['restat_mean_receipt'].toString() ?? '',
+        // meanSales: doc['restat_mean_sales'].toString() ?? '',
+        partyGuid: doc['guid'].toString() ?? '',
+        // totalPayables: doc['restat_total_payables'].toString() ?? '',
+        // totalPayment: doc['restat_total_payment'].toString() ?? '',
+        // totalPurchase: doc['restat_total_purchase'].toString() ?? '',
+        // totalReceipt: doc['restat_total_receipt'].toString() ?? '',
+        // totalReceivables: doc['restat_total_receivables'].toString() ?? '',
         primaryGroupType:
-            doc.data['restat_primary_group_type'].toString() ?? '',
+            doc['restat_primary_group_type'].toString() ?? '',
       );
     }).toList();
   }

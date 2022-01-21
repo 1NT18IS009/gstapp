@@ -58,7 +58,7 @@ class _VoucherListState extends State<VoucherList> {
 
   @override
   void initState() {
-    uid = Provider.of<FirebaseUser>(context, listen: false).uid;
+    uid = Provider.of<User>(context, listen: false).uid;
 
     // Get all vouchers for current party/ledger
     voucherData = Provider.of<List<LedgerVoucherModel>>(context, listen: false);

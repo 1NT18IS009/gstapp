@@ -40,7 +40,7 @@ class OutstandingsDashboardWidgetContentRow extends StatelessWidget {
     if (this.timePeriod == 'Everything') {
       userDocument = snapshot?.data;
     } else {
-      userDocument = snapshot?.data[this.timePeriod];
+      userDocument = snapshot[this.timePeriod];
     }
 
     if (userDocument != null) {

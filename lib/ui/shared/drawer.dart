@@ -25,7 +25,7 @@ import '../../main.dart';
 final AuthService _auth = AuthService();
 
 Drawer tassistDrawer(BuildContext context) {
-  final user = Provider.of<FirebaseUser>(context);
+  final user = Provider.of<User>(context);
 
   return Drawer(
       child: ListView(

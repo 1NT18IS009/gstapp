@@ -15,7 +15,7 @@ import 'package:tassist/ui/widgets/sectionHeader.dart';
 class SalesOrderReportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<FirebaseUser>(context);
+    final user = Provider.of<User>(context);
     final GlobalKey<ScaffoldState> _drawerKey = new GlobalKey<ScaffoldState>();
 
     return MultiProvider(
@@ -23,7 +23,7 @@ class SalesOrderReportScreen extends StatelessWidget {
           StreamProvider<DocumentSnapshot>.value(
               value: DatabaseService(uid: user?.uid)
                   .metricCollection
-                  .document(user.uid)
+                  .doc(user.uid)
                   .snapshots()),
         ],
         child: WillPopScope(

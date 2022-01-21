@@ -1,4 +1,4 @@
-package com.example.tassist
+package com.example.gstapp
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

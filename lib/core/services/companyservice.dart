@@ -7,10 +7,10 @@ class CompanyService {
   CompanyService({this.uid});
 
   final CollectionReference companyCollection =
-      Firestore.instance.collection('company');
+      FirebaseFirestore.instance.collection('company');
 
   Stream<Company> get companyData {
-    return companyCollection.document(this.uid).snapshots().map(_companydata);
+    return companyCollection.doc(this.uid).snapshots().map(_companydata);
   }
 
   Future updateCompanyRecord(
@@ -19,17 +19,17 @@ class CompanyService {
       String phoneNumber,
       String gstNumber,
       String registeredAddress}) async {
-    return await companyCollection.document(this.uid).setData({
+    return await companyCollection.doc(this.uid).set({
       'upi_address': upiAddress,
       'name': companyName,
       'phonenumber': phoneNumber,
       'gstnumber': gstNumber,
       'address': registeredAddress,
-    }, merge: true);
+    }, SetOptions(merge: true));
   }
 
   Company _companydata(DocumentSnapshot snapshot) {
-    Map companyData = snapshot.data;
+    Map companyData = snapshot.data();
 
     if (companyData != null) {
       return Company(

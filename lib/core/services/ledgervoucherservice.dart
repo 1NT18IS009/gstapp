@@ -9,11 +9,11 @@ class LedgerVoucherService {
   LedgerVoucherService({this.uid, this.partyName});
 
   final CollectionReference companyCollection =
-      Firestore.instance.collection('company');
+      FirebaseFirestore.instance.collection('company');
 
   Stream<List<LedgerVoucherModel>> get ledgerVoucherData {
     return companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('voucher')
         .where('restat_party_ledger_name', isEqualTo: partyName)
         .orderBy('vdate', descending: true)
@@ -22,24 +22,24 @@ class LedgerVoucherService {
   }
 
   List<LedgerVoucherModel> _ledgervoucherdata(QuerySnapshot snapshot) {
-    return snapshot.documents.map(
+    return snapshot.docs.map(
       (doc) {
         return LedgerVoucherModel(
-          date: doc.data['vdate']?.toDate() ?? null,
-          partyname: doc.data['restat_party_ledger_name'] ?? '',
-          amount: doc.data['amount']?.toDouble() ?? 0,
-          masterid: doc.data['masterid'] ?? '',
-          iscancelled: doc.data['iscancelled'] ?? '',
-          primaryVoucherType: doc.data['primary_voucher_type_name'] ?? '',
-          isInvoice: doc.data['isinvoice'] ?? '',
-          isPostDated: doc.data['ispostdated'] ?? '',
-          reference: doc.data['reference'] ?? '',
-          type: doc.data['type'] ?? '',
-          partyGuid: doc.data['partyledgername'] ?? '',
-          number: doc.data['number'] ?? '',
-          ledgerEntries: doc.data['ledger_entries'] ?? [],
-          inventoryEntries: doc.data['inventory_entries'] != ''
-              ? (doc.data['inventory_entries'] ?? [])
+          date: doc['vdate']?.toDate() ?? null,
+          partyname: doc['restat_party_ledger_name'] ?? '',
+          amount: doc['amount']?.toDouble() ?? 0,
+          masterid: doc['masterid'] ?? '',
+          iscancelled: doc['iscancelled'] ?? '',
+          primaryVoucherType: doc['primary_voucher_type_name'] ?? '',
+          isInvoice: doc['isinvoice'] ?? '',
+          isPostDated: doc['ispostdated'] ?? '',
+          reference: doc['reference'] ?? '',
+          type: doc['type'] ?? '',
+          partyGuid: doc['partyledgername'] ?? '',
+          number: doc['number'] ?? '',
+          ledgerEntries: doc['ledger_entries'] ?? [],
+          inventoryEntries: doc['inventory_entries'] != ''
+              ? (doc['inventory_entries'] ?? [])
               : [0],
         );
       },

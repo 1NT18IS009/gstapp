@@ -26,7 +26,7 @@ class _ColoredIconNumberRowState extends State<ColoredIconNumberRow> {
 
     final snapshot = Provider.of<DocumentSnapshot>(context);
 
-    var userDocument = snapshot?.data; 
+    var userDocument = snapshot;
 
  _metric () {
 

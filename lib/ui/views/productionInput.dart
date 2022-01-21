@@ -28,7 +28,7 @@ class ProductionScreen extends StatelessWidget {
     }
 
     final GlobalKey<ScaffoldState> _drawerKey = new GlobalKey<ScaffoldState>();
-    final user = Provider.of<FirebaseUser>(context);
+    final user = Provider.of<User>(context);
 
     return StreamProvider<List<Production>>.value(
       //IDFixTODO - pass user to database service

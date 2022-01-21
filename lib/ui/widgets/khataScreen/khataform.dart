@@ -25,7 +25,7 @@ class _KhataFormState extends State<KhataForm> {
   @override
   Widget build(BuildContext context) {
     // IDFIXTODO - get current user
-    var user = Provider.of<FirebaseUser>(context);
+    var user = Provider.of<User>(context);
     return Form(
       key: _formKey,
       child: Column(

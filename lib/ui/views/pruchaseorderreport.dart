@@ -23,13 +23,13 @@ import 'package:tassist/core/services/string_format.dart';
 class PurchaseOrderReportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<FirebaseUser>(context);
+    final user = Provider.of<User>(context);
         final GlobalKey<ScaffoldState> _drawerKey = new GlobalKey<ScaffoldState>();
 
     
     return  MultiProvider(
       providers: [
-        StreamProvider<DocumentSnapshot>.value(value: DatabaseService(uid: user?.uid).metricCollection.document(user.uid).snapshots()),
+        StreamProvider<DocumentSnapshot>.value(value: DatabaseService(uid: user?.uid).metricCollection.doc(user.uid).snapshots()),
         ],
   
 

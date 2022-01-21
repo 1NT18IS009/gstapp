@@ -13,24 +13,24 @@ class DatabaseService {
 
   // create reference to metric collection
   final CollectionReference metricCollection =
-      Firestore.instance.collection('metrics');
+      FirebaseFirestore.instance.collection('metrics');
 
   //Connectiong to Collection Products
   final CollectionReference productCollection =
-      Firestore.instance.collection('products');
+      FirebaseFirestore.instance.collection('products');
 
   //Connectiong to Collection Products
   final CollectionReference khataCollection =
-      Firestore.instance.collection('khata');
+      FirebaseFirestore.instance.collection('khata');
 
   // create reference to company collection
   final CollectionReference companyCollection =
-      Firestore.instance.collection('company');
+      FirebaseFirestore.instance.collection('company');
 
   // METRICS
 
   Future createMetricsRecord() async {
-    return await metricCollection.document(uid).setData({
+    return await metricCollection.doc(uid).set({
       'total_sales': 0,
     });
   }
@@ -43,10 +43,10 @@ class DatabaseService {
   Future createProductionRecord(
       DateTime date, String product, String production) async {
     return await companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('production')
-        .document()
-        .setData({
+        .doc()
+        .set({
       'Date': date,
       'Product': product,
       'Production': production,
@@ -55,11 +55,11 @@ class DatabaseService {
 
 // defining a list of production data items
   List<Production> _productionListfromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return Production(
-        date: doc.data['Date'].toDate() ?? '',
-        product: doc.data['Product'] ?? '',
-        production: doc.data['Production'] ?? 0,
+        date: doc['Date'].toDate() ?? '',
+        product: doc['Product'] ?? '',
+        production: doc['Production'] ?? 0,
       );
     }).toList();
   }
@@ -67,7 +67,7 @@ class DatabaseService {
 // Creating a stream of production data items so that we can listen on them
   Stream<List<Production>> get productionData {
     return companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('production')
         .orderBy('Date', descending: true)
         .snapshots()
@@ -81,10 +81,10 @@ class DatabaseService {
   Future createKhataRecord(
       DateTime date, String partyname, String amount, String trantype) async {
     return await khataCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('transactions')
-        .document()
-        .setData({
+        .doc()
+        .set({
       'date': date,
       'trantype': trantype,
       'partyname': partyname,
@@ -95,21 +95,21 @@ class DatabaseService {
   Future deleteKhata(String documentId) async {
     // IDFixTODO
     await khataCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('transactions')
-        .document(documentId)
+        .doc(documentId)
         .delete();
   }
 
 // defining a list of production data items
   List<Khata> _khatarecordfromSnapshots(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return Khata(
-        date: doc.data['date'].toDate() ?? '',
-        partyname: doc.data['partyname'] ?? '',
-        amount: doc.data['amount'] ?? '',
-        trantype: doc.data['trantype'] ?? '',
-        id: doc.documentID ?? '',
+        date: doc['date'].toDate() ?? '',
+        partyname: doc['partyname'] ?? '',
+        amount: doc['amount'] ?? '',
+        trantype: doc['trantype'] ?? '',
+        id: doc.id ?? '',
       );
     }).toList();
   }
@@ -117,7 +117,7 @@ class DatabaseService {
 // Creating a stream of production data items so that we can listen on them
   Stream<List<Khata>> get khataData {
     return khataCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('transactions')
         .orderBy('date', descending: true)
         .snapshots()
@@ -130,11 +130,11 @@ class SalesVoucherService {
   SalesVoucherService({this.uid});
 
   final CollectionReference companyCollection =
-      Firestore.instance.collection('company');
+      FirebaseFirestore.instance.collection('company');
 
   Stream<List<SalesVoucher>> get salesVoucherData {
     return companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('voucher')
         .where('primaryvouchertypename', isEqualTo: 'Sales')
         .orderBy('amount', descending: true)
@@ -143,13 +143,13 @@ class SalesVoucherService {
   }
 
   List<SalesVoucher> _salesvouchersfromSnapshots(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return SalesVoucher(
-        date: doc.data['date'] ?? '',
-        partyname: doc.data['restat_party_ledger_name'] ?? '',
-        amount: doc.data['amount'].toInt() ?? 0,
-        masterid: doc.data['masterid'] ?? '',
-        iscancelled: doc.data['iscancelled'] ?? '',
+        date: doc['date'] ?? '',
+        partyname: doc['restat_party_ledger_name'] ?? '',
+        amount: doc['amount'].toInt() ?? 0,
+        masterid: doc['masterid'] ?? '',
+        iscancelled: doc['iscancelled'] ?? '',
       );
     }).toList();
   }

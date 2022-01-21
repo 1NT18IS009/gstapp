@@ -27,7 +27,7 @@ class _ProductionFormState extends State<ProductionForm> {
   @override
   Widget build(BuildContext context) {
     // IDFixTODO - get current user
-    var user = Provider.of<FirebaseUser>(context);
+    var user = Provider.of<User>(context);
 
     return Form(
       key:  _formKey,

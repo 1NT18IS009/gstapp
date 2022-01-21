@@ -23,7 +23,7 @@ class _MetricsWidgetState extends State<MetricsWidget> {
     
 final snapshot = Provider.of<DocumentSnapshot>(context);
 
-      var userDocument = snapshot.data;
+      var userDocument = snapshot;
 
 
     return Column(

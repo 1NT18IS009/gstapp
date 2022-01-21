@@ -16,7 +16,7 @@ import 'package:tassist/ui/widgets/khataScreen/khatalist.dart';
 class KhataScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<FirebaseUser>(context);
+    final user = Provider.of<User>(context);
     // print(user.uid);
 
     void _showKhataPanel() {

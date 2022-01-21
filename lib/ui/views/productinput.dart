@@ -28,7 +28,7 @@ class _ProductInputScreenState extends State<ProductInputScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String uid = Provider.of<FirebaseUser>(context).uid;
+    String uid = Provider.of<User>(context).uid;
 
     return WillPopScope(
         onWillPop: () async => false,

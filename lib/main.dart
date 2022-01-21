@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
     const String _title = "TallyAssist";
 
     return MultiProvider(providers: [
-      StreamProvider<FirebaseUser>.value(
+      StreamProvider<User>.value(
         value: AuthService().user,
       ),
     ], child: TopWidget(title: _title));
@@ -55,13 +55,14 @@ class TopWidget extends StatefulWidget {
 class _TopWidgetState extends State<TopWidget> {
   // final Firestore _db = Firestore.instance;
 
-  final FirebaseMessaging _fcm = FirebaseMessaging();
+  final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
   // StreamSubscription iosSubscription;
 
   @override
   void initState() {
     super.initState();
+
 
     // String uid = Provider.of<FirebaseUser>(context, listen: false).uid;
 
@@ -73,132 +74,157 @@ class _TopWidgetState extends State<TopWidget> {
 
     //   _fcm.requestNotificationPermissions(IosNotificationSettings());
     // } else {
-    _saveDeviceToken();
+    //_saveDeviceToken();
     // }
 
-    _fcm.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-        // final snackbar = SnackBar(
-        //   content: Text(message['notification']['title']),
-        //   action: SnackBarAction(
-        //     label: 'Go',
-        //     onPressed: () => null,
-        //   ),
-        // );
 
-        // Scaffold.of(context).showSnackBar(snackbar);
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            content: ListTile(
-              title: Text(message['notification']['title']),
-              subtitle: Text(message['notification']['body']),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                color: Colors.amber,
-                child: Text('Ok'),
-                onPressed: () => Navigator.of(context).pop(),
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+      print("onMessage: $message");
+      showDialog(
+        context: context,
+        builder: (context) =>
+            AlertDialog(
+              content: ListTile(
+                title: Text(message.data['notification']['title']),
+                subtitle: Text(message.data['notification']['body']),
               ),
-            ],
+              actions: <Widget>[
+                FlatButton(
+                  color: Colors.amber,
+                  child: Text('Ok'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+      );
+    });
+  }
+    //   _fcm.configure(
+    //     onMessage: (Map<String, dynamic> message) async {
+    //       print("onMessage: $message");
+    //       // final snackbar = SnackBar(
+    //       //   content: Text(message['notification']['title']),
+    //       //   action: SnackBarAction(
+    //       //     label: 'Go',
+    //       //     onPressed:  () => null,
+    //       //   ),
+    //       // );
+    //
+    //       // Scaffold.of(context).showSnackBar(snackbar);
+    //       showDialog(
+    //         context: context,
+    //         builder: (context) => AlertDialog(
+    //           content: ListTile(
+    //             title: Text(message['notification']['title']),
+    //             subtitle: Text(message['notification']['body']),
+    //           ),
+    //           actions: <Widget>[
+    //             FlatButton(
+    //               color: Colors.amber,
+    //               child: Text('Ok'),
+    //               onPressed: () => Navigator.of(context).pop(),
+    //             ),
+    //           ],
+    //         ),
+    //       );
+    //     },
+    //     onLaunch: (Map<String, dynamic> message) async {
+    //       print("onLaunch: $message");
+    //     },
+    //     onResume: (Map<String, dynamic> message) async {
+    //       print("onResume: $message");
+    //     },
+    //   );
+    // }
+
+    /// Get the token, save it to the database for current user
+    // _saveDeviceToken() async {
+    //   // Get the current user
+    //   // String uid = 'jeffd23';
+    //   // FirebaseUser user = await _auth.currentUser();
+    //
+    //   // Get the token for this device
+    //   await _fcm.getToken();
+    //
+    //   // Save it to Firestore
+    //   // if (fcmToken != null) {
+    //   //   var tokens = _db
+    //   //       .collection('company')
+    //   //       .document(uid)
+    //   //       .collection('tokens')
+    //   //       .document(fcmToken);
+    //
+    //   //   await tokens.setData({
+    //   //     'token': fcmToken,
+    //   //     'createdAt': FieldValue.serverTimestamp(), // optional
+    //   //     'platform': Platform.operatingSystem // optional
+    //   //   });
+    // }
+
+    @override
+    Widget build(BuildContext context) {
+      final user = Provider.of<User>(context);
+      return MultiProvider(
+        providers: [
+          StreamProvider<List<ReceivablesItem>>.value(
+            // initialData: List<ReceivablesItem>(),
+            value: ReceivablesItemService(uid: user?.uid)
+                .accountsReceivableData,
           ),
-        );
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-      },
-    );
-  }
-
-  /// Get the token, save it to the database for current user
-  _saveDeviceToken() async {
-    // Get the current user
-    // String uid = 'jeffd23';
-    // FirebaseUser user = await _auth.currentUser();
-
-    // Get the token for this device
-    await _fcm.getToken();
-
-    // Save it to Firestore
-    // if (fcmToken != null) {
-    //   var tokens = _db
-    //       .collection('company')
-    //       .document(uid)
-    //       .collection('tokens')
-    //       .document(fcmToken);
-
-    //   await tokens.setData({
-    //     'token': fcmToken,
-    //     'createdAt': FieldValue.serverTimestamp(), // optional
-    //     'platform': Platform.operatingSystem // optional
-    //   });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final user = Provider.of<FirebaseUser>(context);
-    return MultiProvider(
-      providers: [
-        StreamProvider<List<ReceivablesItem>>.value(
-          // initialData: List<ReceivablesItem>(),
-          value: ReceivablesItemService(uid: user?.uid).accountsReceivableData,
-        ),
-        // LEDGER/PARTY DATA
-        StreamProvider<List<LedgerItem>>.value(
-            value: LedgerItemService(uid: user?.uid).ledgerItemData),
-        StreamProvider<List<StockItem>>.value(
-            value: StockItemService(uid: user?.uid).stockItemsData),
-        StreamProvider<List<PayablesItem>>.value(
-            value: PayablesItemService(uid: user?.uid).accountsPayablesData),
-        StreamProvider<List<InactiveCustomer>>.value(
-            value:
-                InactiveCustomerService(uid: user?.uid).inactiveCustomerData),
-        // StreamProvider<List<SalesVoucher>>.value(
-        //     value: SalesVoucherService(uid: user?.uid).salesVoucherData),
-        // StreamProvider<List<PurchaseVoucher>>.value(
-        //     value: PurchaseVoucherService(uid: user?.uid).purchaseVoucherData),
-        // StreamProvider<List<PaymentVoucher>>.value(
-        //     value: PaymentVoucherService(uid: user?.uid).paymentVoucherData),
-        // StreamProvider<List<ReceiptVoucher>>.value(
-        //     value: ReceiptVoucherService(uid: user?.uid).receiptVoucherData),
-        StreamProvider<List<Voucher>>.value(
-            value: VoucherService(uid: user?.uid).voucherData),
-        StreamProvider<Company>.value(
-            value: CompanyService(uid: user?.uid).companyData),
-        // StreamProvider<DocumentSnapshot>.value(
-        //     value: DatabaseService()
-        //         .companyCollection
-        //         .document(user?.uid)
-        //         .snapshots()),
-      ],
-      child: MaterialApp(
-        initialRoute: '/',
-        onGenerateRoute: RouteGenerator.generateRoute,
-        // routes: {
-        //   '/': (context) => RootPage(),
-        //   '/vouchers': (context) => VouchersHome(),
-        //   '/voucherview': (context) => VoucherView(),
-        //   '/ledgerview': (context) => LedgerView(),
-        //   '/ledgers': (context) => LedgerScreen()
-        // },
-        title: widget._title,
-        // home: HomeScreen(),
-        // home: RootPage(),
-        theme: ThemeData(
-          appBarTheme: AppBarTheme(
-            textTheme: TextTheme(headline6: primaryAppBarTitle),
+          // LEDGER/PARTY DATA
+          StreamProvider<List<LedgerItem>>.value(
+              value: LedgerItemService(uid: user?.uid).ledgerItemData),
+          StreamProvider<List<StockItem>>.value(
+              value: StockItemService(uid: user?.uid).stockItemsData),
+          StreamProvider<List<PayablesItem>>.value(
+              value: PayablesItemService(uid: user?.uid).accountsPayablesData),
+          StreamProvider<List<InactiveCustomer>>.value(
+              value:
+              InactiveCustomerService(uid: user?.uid).inactiveCustomerData),
+          // StreamProvider<List<SalesVoucher>>.value(
+          //     value: SalesVoucherService(uid: user?.uid).salesVoucherData),
+          // StreamProvider<List<PurchaseVoucher>>.value(
+          //     value: PurchaseVoucherService(uid: user?.uid).purchaseVoucherData),
+          // StreamProvider<List<PaymentVoucher>>.value(
+          //     value: PaymentVoucherService(uid: user?.uid).paymentVoucherData),
+          // StreamProvider<List<ReceiptVoucher>>.value(
+          //     value: ReceiptVoucherService(uid: user?.uid).receiptVoucherData),
+          StreamProvider<List<Voucher>>.value(
+              value: VoucherService(uid: user?.uid).voucherData),
+          StreamProvider<Company>.value(
+              value: CompanyService(uid: user?.uid).companyData),
+          // StreamProvider<DocumentSnapshot>.value(
+          //     value: DatabaseService()
+          //         .companyCollection
+          //         .document(user?.uid)
+          //         .snapshots()),
+        ],
+        child: MaterialApp(
+          initialRoute: '/',
+          onGenerateRoute: RouteGenerator.generateRoute,
+          // routes: {
+          //   '/': (context) => RootPage(),
+          //   '/vouchers': (context) => VouchersHome(),
+          //   '/voucherview': (context) => VoucherView(),
+          //   '/ledgerview': (context) => LedgerView(),
+          //   '/ledgers': (context) => LedgerScreen()
+          // },
+          title: widget._title,
+          // home: HomeScreen(),
+          // home: RootPage(),
+          theme: ThemeData(
+            appBarTheme: AppBarTheme(
+              textTheme: TextTheme(headline6: primaryAppBarTitle),
+            ),
+            textTheme: TextTheme(
+                headline6: secondaryListTitle,
+                subtitle1: secondaryCategoryDesc,
+                bodyText1: secondaryListDisc,
+                bodyText2: secondaryListTitle2),
           ),
-          textTheme: TextTheme(
-              headline6: secondaryListTitle,
-              subtitle1: secondaryCategoryDesc,
-              bodyText1: secondaryListDisc,
-              bodyText2: secondaryListTitle2),
         ),
-      ),
-    );
+      );
+    }
   }
-}

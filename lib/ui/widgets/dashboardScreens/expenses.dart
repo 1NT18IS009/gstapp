@@ -39,7 +39,7 @@ class _ExpenseDashboardWidgetContentRowState
   Widget build(BuildContext context) {
     final snapshot = Provider.of<DocumentSnapshot>(context);
 
-    var userDocument = snapshot.data;
+    var userDocument = snapshot;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

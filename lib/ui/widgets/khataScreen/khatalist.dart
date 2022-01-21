@@ -15,7 +15,7 @@ class _KhataListState extends State<KhataList> {
   @override
   Widget build(BuildContext context) {
     final khataData = Provider.of<List<Khata>>(context);
-    var user = Provider.of<FirebaseUser>(context);
+    var user = Provider.of<User>(context);
 
     // final id = DatabaseService().khataCollection.document(user.uid).collection('transations').document().documentID;
 

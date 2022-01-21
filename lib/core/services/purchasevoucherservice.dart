@@ -6,11 +6,11 @@ class PurchaseVoucherService {
   PurchaseVoucherService({this.uid});
 
   final CollectionReference companyCollection =
-      Firestore.instance.collection('company');
+  FirebaseFirestore.instance.collection('company');
 
   Stream<List<PurchaseVoucher>> get purchaseVoucherData {
     return companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('voucher')
         .where('primary_voucher_type_name', isEqualTo: 'Purchase')
         .orderBy('amount', descending: true)
@@ -19,13 +19,13 @@ class PurchaseVoucherService {
   }
 
   List<PurchaseVoucher> _purchasevouchersfromSnapshots(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return PurchaseVoucher(
-        date: doc.data['date'] ?? '',
-        partyname: doc.data['restat_party_ledger_name'] ?? '',
-        amount: doc.data['amount'].toInt() ?? 0,
-        masterid: doc.data['master_id'] ?? '',
-        iscancelled: doc.data['is_cancelled'] ?? '',
+        date: doc['date'] ?? '',
+        partyname: doc['restat_party_ledger_name'] ?? '',
+        amount: doc['amount'].toInt() ?? 0,
+        masterid: doc['master_id'] ?? '',
+        iscancelled: doc['is_cancelled'] ?? '',
       );
     }).toList();
   }

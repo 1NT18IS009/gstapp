@@ -10,7 +10,7 @@ class RootPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final user = Provider.of<FirebaseUser>(context);
+    final user = Provider.of<User>(context);
     print(user);
     
     // return either the Home or Menu widget

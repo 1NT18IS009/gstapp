@@ -97,7 +97,7 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
  
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<FirebaseUser>(context);
+    final user = Provider.of<User>(context);
     final GlobalKey<ScaffoldState> _drawerKey = new GlobalKey<ScaffoldState>();
     
     
@@ -107,7 +107,7 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
           StreamProvider<DocumentSnapshot>.value(
               value: DatabaseService()
                   .metricCollection
-                  .document(user?.uid)
+                  .doc(user?.uid)
                   .snapshots()),
         ],
 
@@ -310,7 +310,7 @@ class _DashboardCardState
     if (widget.timePeriod == 'Everything') {
       userDocument = snapshot?.data;
     } else {
-      userDocument = snapshot?.data[widget.timePeriod];
+      userDocument = snapshot[widget.timePeriod];
     }
 
     if (userDocument != null) {
@@ -429,7 +429,7 @@ class _DashboardCard2State
     if (widget.timePeriod == 'Everything') {
       userDocument = snapshot?.data;
     } else {
-      userDocument = snapshot?.data[widget.timePeriod];
+      userDocument = snapshot[widget.timePeriod];
     }
 
     if (userDocument != null) {
@@ -552,7 +552,7 @@ class _DashboardCard3State
     if (widget.timePeriod == 'Everything') {
       userDocument = snapshot?.data;
     } else {
-      userDocument = snapshot?.data[widget.timePeriod];
+      userDocument = snapshot[widget.timePeriod];
     }
 
     if (userDocument != null) {

@@ -51,7 +51,7 @@ class _PaymentsDashboardWidgetContentRowState
     if (widget.timePeriod == 'Everything') {
       userDocument = snapshot?.data;
     } else {
-      userDocument = snapshot?.data[widget.timePeriod];
+      userDocument = snapshot[widget.timePeriod];
     }
     // var userDocument = snapshot?.data;
 
@@ -128,7 +128,7 @@ class PaymentsDashboardWidgetTitleRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final snapshot = Provider.of<DocumentSnapshot>(context);
-    var userDocument = snapshot?.data;
+    var userDocument = snapshot;
 
     void sharePayments(BuildContext context, double payments) {
       final String text =

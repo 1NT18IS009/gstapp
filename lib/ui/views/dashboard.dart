@@ -41,7 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<FirebaseUser>(context);
+    final user = Provider.of<User>(context);
     final GlobalKey<ScaffoldState> _drawerKey = new GlobalKey<ScaffoldState>();
 
     print(timePeriod);
@@ -51,7 +51,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           StreamProvider<DocumentSnapshot>.value(
               value: DatabaseService()
                   .metricCollection
-                  .document(user?.uid)
+                  .doc(user?.uid)
                   .snapshots()),
         ],
         child: WillPopScope(

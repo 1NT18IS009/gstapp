@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
+// import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -78,7 +78,7 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var uid = Provider.of<FirebaseUser>(context).uid;
+    var uid = Provider.of<User>(context).uid;
     var ledgerList = Provider.of<List<LedgerItem>>(context, listen: false);
     var stockList = Provider.of<List<StockItem>>(context, listen: false);
     var company = Provider.of<Company>(context);

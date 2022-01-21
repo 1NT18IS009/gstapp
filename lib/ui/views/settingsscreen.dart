@@ -32,7 +32,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _registeredAddress;
 
   Future<void> _pickImage(ImageSource source) async {
-    File selected = await ImagePicker.pickImage(source: source);
+    File selected = (await ImagePicker().pickImage(source: source)) as File;
     setState(() {
       _imageFile = selected;
     });
@@ -49,7 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final uid = Provider.of<FirebaseUser>(context).uid;
+    final uid = Provider.of<User>(context).uid;
 
     return WillPopScope(
         onWillPop: () async => false,
@@ -84,12 +84,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         .copyWith(color: TassistWhite)),
                 onPressed: () async {
                   await StorageService().uploadFile(_imageFile, uid + '_logo');
-                  Firestore.instance
+                  FirebaseFirestore.instance
                       .collection('company')
-                      .document(uid)
-                      .setData({
+                      .doc(uid)
+                      .set({
                     'restat_has_logo': '1',
-                  }, merge: true);
+                  }, SetOptions(merge: true));
 
                   // return AlertDialog(
                   //     title: Text(

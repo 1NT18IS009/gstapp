@@ -8,30 +8,30 @@ class LedgerStockService {
   LedgerStockService({this.uid, this.ledgerId});
 
   final CollectionReference companyCollection =
-      Firestore.instance.collection('company');
+      FirebaseFirestore.instance.collection('company');
 
   Stream<List<LedgerStock>> get ledgerStockData {
     return companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('ledger')
-        .document(this.ledgerId)
+        .doc(this.ledgerId)
         .collection('ledger_stock_metrics')
         .snapshots()
         .map(_ledgerstockdata);
   }
 
   List<LedgerStock> _ledgerstockdata(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return LedgerStock(
-        lastAmount: doc.data['total_amount'].toString() ?? '',
-        lastDiscount: doc.data['last_discount'].toString() ?? '',
-        lastRate: doc.data['last_rate'].toString() ?? '',
-        lastDate: doc.data['last_voucher_date'].toDate() ?? null,
-        itemName: doc.data['restat_stock_item_name'].toString() ?? '',
-        totalAmount: doc.data['total_amount'].toString() ?? '',
-        totalActualQty: doc.data['total_actualqty'].toString() ?? '',
-        totalBilledQty: doc.data['total_billedqty']?.toDouble() ?? 0,
-        numVouchers: doc.data['num_vouchers'].toString() ?? '',
+        lastAmount: doc['total_amount'].toString() ?? '',
+        lastDiscount: doc['last_discount'].toString() ?? '',
+        lastRate: doc['last_rate'].toString() ?? '',
+        lastDate: doc['last_voucher_date'].toDate() ?? null,
+        itemName: doc['restat_stock_item_name'].toString() ?? '',
+        totalAmount: doc['total_amount'].toString() ?? '',
+        totalActualQty: doc['total_actualqty'].toString() ?? '',
+        totalBilledQty: doc['total_billedqty']?.toDouble() ?? 0,
+        numVouchers: doc['num_vouchers'].toString() ?? '',
       );
     }).toList();
   }

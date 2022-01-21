@@ -51,7 +51,7 @@ class _SalesDashboardWidgetContentRowState
     if (widget.timePeriod == 'Everything') {
       userDocument = snapshot?.data;
     } else {
-      userDocument = snapshot?.data[widget.timePeriod];
+      userDocument = snapshot[widget.timePeriod];
     }
 
     if (userDocument != null) {
@@ -129,7 +129,7 @@ class SalesDashboardWidgetTitleRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final snapshot = Provider.of<DocumentSnapshot>(context);
-    var userDocument = snapshot?.data;
+    var userDocument = snapshot;
 
     void shareSales(BuildContext context, double sales) {
       final String text =

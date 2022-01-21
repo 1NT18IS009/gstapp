@@ -6,11 +6,11 @@ class VoucherService {
   VoucherService({this.uid});
 
   final CollectionReference companyCollection =
-      Firestore.instance.collection('company');
+  FirebaseFirestore.instance.collection('company');
 
   Stream<List<Voucher>> get voucherData {
     return companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('voucher')
         .orderBy('vdate', descending: true)
         // .endBefore([DateTime(2019, 9, 30)])
@@ -31,10 +31,10 @@ class VoucherService {
     type,
   }) async {
     return await companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('voucher')
-        .document(masterId)
-        .setData({
+        .doc(masterId)
+        .set({
       'number': number,
       'masterid': masterId,
       'vdate': date,
@@ -49,20 +49,20 @@ class VoucherService {
   }
 
   List<Voucher> _receiptvouchersfromSnapshots(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return Voucher(
-        date: doc.data['vdate']?.toDate() ?? null,
-        partyname: doc.data['restat_party_ledger_name'] ?? '',
-        amount: doc.data['amount']?.toDouble() ?? 0,
-        masterid: doc.data['masterid'] ?? '',
-        iscancelled: doc.data['iscancelled'] ?? '',
-        primaryVoucherType: doc.data['primaryvouchertypename'] ?? '',
-        isInvoice: doc.data['isinvoice'] ?? '',
-        isPostDated: doc.data['ispostdated'] ?? '',
-        reference: doc.data['reference'] ?? '',
-        type: doc.data['type'] ?? '',
-        partyGuid: doc.data['partyledgername'] ?? '',
-        number: doc.data['vouchernumber'] ?? '',
+        date: doc['vdate']?.toDate() ?? null,
+        partyname: doc['restat_party_ledger_name'] ?? '',
+        amount: doc['amount']?.toDouble() ?? 0,
+        masterid: doc['masterid'] ?? '',
+        iscancelled: doc['iscancelled'] ?? '',
+        primaryVoucherType: doc['primaryvouchertypename'] ?? '',
+        isInvoice: doc['isinvoice'] ?? '',
+        isPostDated: doc['ispostdated'] ?? '',
+        reference: doc['reference'] ?? '',
+        type: doc['type'] ?? '',
+        partyGuid: doc['partyledgername'] ?? '',
+        number: doc['vouchernumber'] ?? '',
       );
     }).toList();
   }

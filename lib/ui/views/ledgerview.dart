@@ -54,7 +54,7 @@ class _LedgerViewState extends State<LedgerView>
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<FirebaseUser>(context);
+    final user = Provider.of<User>(context);
 
     final GlobalKey<ScaffoldState> _drawerKey = new GlobalKey<ScaffoldState>();
 

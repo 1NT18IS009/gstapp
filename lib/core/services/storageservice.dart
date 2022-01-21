@@ -2,12 +2,13 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 class StorageService {
   Future<void> uploadFile(File file, String filename) async {
     var fileType = 'image';
 
-    StorageReference storageReference;
+    Reference storageReference;
     if (fileType == 'image') {
       storageReference =
           FirebaseStorage.instance.ref().child("tallyassist/$filename");
@@ -28,8 +29,8 @@ class StorageService {
     //   storageReference =
     //     FirebaseStorage.instance.ref().child("others/$filename");
     // }
-    final StorageUploadTask uploadTask = storageReference.putFile(file);
-    final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+    final UploadTask uploadTask = storageReference.putFile(file);
+    final TaskSnapshot downloadUrl = (await uploadTask.whenComplete(() => null));
     final String url = (await downloadUrl.ref.getDownloadURL());
     print("URL is $url");
   }
@@ -37,7 +38,7 @@ class StorageService {
   Future<void> downloadFile(String filename) async {
     var fileType = 'image';
 
-    StorageReference storageReference;
+    Reference storageReference;
     if (fileType == 'image') {
       storageReference =
           FirebaseStorage.instance.ref().child("tallyassist/$filename");
@@ -45,7 +46,7 @@ class StorageService {
 
     final String url = await storageReference.getDownloadURL();
     // final String uuid = Uuid().v1();
-    await http.get(url);
+    await http.get(Uri.parse(url));
     final Directory systemTempDir = Directory.systemTemp;
     final File tempFile = File('${systemTempDir.path}/$filename');
     if (tempFile.existsSync()) {

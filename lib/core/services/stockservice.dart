@@ -6,11 +6,11 @@ class StockItemService {
   StockItemService({this.uid});
 
   final CollectionReference companyCollection =
-      Firestore.instance.collection('company');
+  FirebaseFirestore.instance.collection('company');
 
   Stream<List<StockItem>> get stockItemsData {
     return companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('stockitem')
         .orderBy('closingvalue', descending: false)
         .snapshots()
@@ -28,10 +28,10 @@ class StockItemService {
     reorderValue,
   }) async {
     return await companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('stockitem')
-        .document(masterId)
-        .setData({
+        .doc(masterId)
+        .set({
       'name': name,
       'masterid': masterId,
       'standardcost': standardCost,
@@ -44,18 +44,18 @@ class StockItemService {
   }
 
   List<StockItem> _stockItemData(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return StockItem(
-        name: doc.data['name'] ?? '',
-        masterId: doc.data['masterid'] ?? '',
-        closingBalance: doc.data['closingbalance']?.toString() ?? '',
-        closingValue: doc.data['closingvalue'] != ''
-            ? (doc.data['closingvalue']?.toDouble() ?? 0)
+        name: doc['name'] ?? '',
+        masterId: doc['masterid'] ?? '',
+        closingBalance: doc['closingbalance']?.toString() ?? '',
+        closingValue: doc['closingvalue'] != ''
+            ? (doc['closingvalue']?.toDouble() ?? 0)
             : 0,
-        baseUnit: doc.data['baseunits']?.toString() ?? '',
-        closingRate: doc.data['closingrate']?.toString() ?? '',
-        standardCost: doc.data['standardcost']?.toString() ?? '',
-        standardPrice: doc.data['standardprice']?.toString() ?? '',
+        baseUnit: doc['baseunits']?.toString() ?? '',
+        closingRate: doc['closingrate']?.toString() ?? '',
+        standardCost: doc['standardcost']?.toString() ?? '',
+        standardPrice: doc['standardprice']?.toString() ?? '',
       );
     }).toList();
   }

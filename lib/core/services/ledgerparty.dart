@@ -9,11 +9,11 @@ class LedgerPartyService {
   LedgerPartyService({this.uid, this.voucherId});
 
   final CollectionReference companyCollection =
-      Firestore.instance.collection('company');
+      FirebaseFirestore.instance.collection('company');
 
   Stream<List<LedgerParty>> get voucherLedgerData {
     return companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('ledger_entries')
         .where('restat_voucher_master_id', isEqualTo: voucherId)
         .snapshots()
@@ -21,22 +21,22 @@ class LedgerPartyService {
   }
 
   List<LedgerParty> _voucherLedgerData(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return LedgerParty(
-        amount: doc.data['amount'].toDouble() ?? 0,
-        isDeemedPositive: doc.data['isdeemedpositive'].toString() ?? '',
-        isPartyLedger: doc.data['ispartyledger'].toString() ?? '',
-        ledgerGuid: doc.data['ledger_guid'].toString() ?? '',
-        ledgerMasterId: doc.data['ledgername'].toString() ?? '',
-        ledgerRefMasterId: doc.data['ledgerrefname'].toString() ?? '',
+        amount: doc['amount'].toDouble() ?? 0,
+        isDeemedPositive: doc['isdeemedpositive'].toString() ?? '',
+        isPartyLedger: doc['ispartyledger'].toString() ?? '',
+        ledgerGuid: doc['ledger_guid'].toString() ?? '',
+        ledgerMasterId: doc['ledgername'].toString() ?? '',
+        ledgerRefMasterId: doc['ledgerrefname'].toString() ?? '',
         // primaryVoucherType:
-        //     doc.data['primary_voucher_type_name'].toString() ?? '',
-        primaryGroup: doc.data['primarygroup'].toString() ?? '',
-        ledgerName: doc.data['restat_ledger_name'].toString() ?? '',
-        ledgerRefName: doc.data['restat_ledger_ref_name'].toString() ?? '',
-        partyName: doc.data['restat_party_ledger_name'].toString() ?? '',
-        date: doc.data['restat_voucher_date'].toDate() ?? null,
-        voucherMasterID: doc.data['restat_voucher_master_id'].toString() ?? '',
+        //     doc['primary_voucher_type_name'].toString() ?? '',
+        primaryGroup: doc['primarygroup'].toString() ?? '',
+        ledgerName: doc['restat_ledger_name'].toString() ?? '',
+        ledgerRefName: doc['restat_ledger_ref_name'].toString() ?? '',
+        partyName: doc['restat_party_ledger_name'].toString() ?? '',
+        date: doc['restat_voucher_date'].toDate() ?? null,
+        voucherMasterID: doc['restat_voucher_master_id'].toString() ?? '',
       );
     }).toList();
   }

@@ -6,11 +6,11 @@ class LedgerItemService {
   LedgerItemService({this.uid});
 
   final CollectionReference companyCollection =
-      Firestore.instance.collection('company');
+      FirebaseFirestore.instance.collection('company');
 
   Stream<List<LedgerItem>> get inactiveCustomerData {
     return companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('ledger')
         .where('closing_balance', isEqualTo: 0)
         .where('parentcode', isEqualTo: '20')
@@ -20,7 +20,7 @@ class LedgerItemService {
 
   Stream<List<LedgerItem>> get accountsReceivableData {
     return companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('ledger')
         .where('restat_total_receivables', isLessThan: 0)
         .snapshots()
@@ -29,7 +29,7 @@ class LedgerItemService {
 
   Stream<List<LedgerItem>> get accountsPayablesData {
     return companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('ledger')
         .where('restat_total_payables', isGreaterThan: 0)
         .snapshots()
@@ -38,7 +38,7 @@ class LedgerItemService {
 
   Stream<List<LedgerItem>> get ledgerItemData {
     return companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('ledger')
         .orderBy('name', descending: false)
         .snapshots()
@@ -47,10 +47,10 @@ class LedgerItemService {
 
   Future saveLedger({masterId, name, phone, gst, partyType}) async {
     return await companyCollection
-        .document(this.uid)
+        .doc(this.uid)
         .collection('ledger')
-        .document(masterId)
-        .setData({
+        .doc(masterId)
+        .set({
       'name': name,
       'phone': phone,
       'gst': gst,
@@ -59,37 +59,37 @@ class LedgerItemService {
   }
 
   List<LedgerItem> _ledgerItemData(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return LedgerItem(
-        name: doc.data['name'].toString() ?? '',
-        masterId: doc.data['masterid'].toString() ?? '',
-        currencyName: doc.data['currencyname'].toString() ?? '',
-        openingBalance: doc.data['openingbalance']?.toDouble() ?? 0,
-        closingBalance: doc.data['closingbalance']?.toDouble() ?? 0,
-        parentid: doc.data['parentcode'].toString() ?? '',
-        contact: doc.data['contact'].toString() ?? '',
-        state: doc.data['state'].toString() ?? '',
-        email: doc.data['email'].toString() ?? '',
-        phone: doc.data['phone'].toString() ?? '',
-        guid: doc.data['guid'].toString() ?? '',
-        // lastPaymentDate: doc.data['restat_last_payment_date'].toString() ?? '',
+        name: doc['name'].toString() ?? '',
+        masterId: doc['masterid'].toString() ?? '',
+        currencyName: doc['currencyname'].toString() ?? '',
+        openingBalance: doc['openingbalance']?.toDouble() ?? 0,
+        closingBalance: doc['closingbalance']?.toDouble() ?? 0,
+        parentid: doc['parentcode'].toString() ?? '',
+        contact: doc['contact'].toString() ?? '',
+        state: doc['state'].toString() ?? '',
+        email: doc['email'].toString() ?? '',
+        phone: doc['phone'].toString() ?? '',
+        guid: doc['guid'].toString() ?? '',
+        // lastPaymentDate: doc['restat_last_payment_date'].toString() ?? '',
         // lastPurchaseDate:
-        //     doc.data['restat_last_purchase_date'].toString() ?? '',
-        // lastReceiptDate: doc.data['restat_last_receipt_date'].toString() ?? '',
-        // lastSalesDate: doc.data['restat_last_sales_date'].toString() ?? '',
-        // meanPayment: doc.data['restat_mean_payment'].toString() ?? '',
-        // meanPurchase: doc.data['restat_mean_purchase'].toString() ?? '',
-        // meanReceipt: doc.data['restat_mean_receipt'].toString() ?? '',
-        // meanSales: doc.data['restat_mean_sales'].toString() ?? '',
-        partyGuid: doc.data['guid'].toString() ?? '',
-        // totalPayables: doc.data['restat_total_payables'].toString() ?? '',
-        totalSales: doc.data['restat_total_sales'].toString() ?? '',
-        totalPayment: doc.data['restat_total_payment'].toString() ?? '',
-        totalPurchase: doc.data['restat_total_purchase'].toString() ?? '',
-        totalReceipt: doc.data['restat_total_receipt'].toString() ?? '',
-        // totalReceivables: doc.data['restat_total_receivables'].toString() ?? '',
+        //     doc['restat_last_purchase_date'].toString() ?? '',
+        // lastReceiptDate: doc['restat_last_receipt_date'].toString() ?? '',
+        // lastSalesDate: doc['restat_last_sales_date'].toString() ?? '',
+        // meanPayment: doc['restat_mean_payment'].toString() ?? '',
+        // meanPurchase: doc['restat_mean_purchase'].toString() ?? '',
+        // meanReceipt: doc['restat_mean_receipt'].toString() ?? '',
+        // meanSales: doc['restat_mean_sales'].toString() ?? '',
+        partyGuid: doc['guid'].toString() ?? '',
+        // totalPayables: doc['restat_total_payables'].toString() ?? '',
+        totalSales: doc['restat_total_sales'].toString() ?? '',
+        totalPayment: doc['restat_total_payment'].toString() ?? '',
+        totalPurchase: doc['restat_total_purchase'].toString() ?? '',
+        totalReceipt: doc['restat_total_receipt'].toString() ?? '',
+        // totalReceivables: doc['restat_total_receivables'].toString() ?? '',
         primaryGroupType:
-            doc.data['restat_primary_group_type'].toString() ?? '',
+            doc['restat_primary_group_type'].toString() ?? '',
 
       );
     }).toList();
