@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tassist/core/services/database.dart';
@@ -40,7 +39,10 @@ class _KhataFormState extends State<KhataForm> {
             items: trantype.map((trantype) {
               return DropdownMenuItem(
                 value: trantype,
-                child: Text('$trantype', style: Theme.of(context).textTheme.bodyText2,),
+                child: Text(
+                  '$trantype',
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
               );
             }).toList(),
             decoration: new InputDecoration(
@@ -66,33 +68,31 @@ class _KhataFormState extends State<KhataForm> {
               SizedBox(
                 width: 10.0,
               ),
-              RaisedButton(
-                child: Text('Date Picker'),
-                color: TassistBgLightPurple,
+              ElevatedButton(
                 onPressed: () {
                   showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2001),
-                          lastDate: DateTime(2022),
-                          builder: (BuildContext context, Widget child) {
-                                return Theme(
-                                  data: ThemeData.light().copyWith(
-                                      //OK/Cancel button text color
-                                      primaryColor: const Color(
-                                          0xFF4A5BF6), //Head background
-                                      accentColor: const Color(
-                                          0xFF4A5BF6) //selection color
-                                      //dialogBackgroundColor: Colors.white,//Background color
-                                      ),
-                                  child: child,
-                                );
-                              },
-                            )
-                      .then((date) {
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2001),
+                    lastDate: DateTime(2022),
+                    builder: (BuildContext context, Widget child) {
+                      return Theme(
+                        data: ThemeData.light().copyWith(
+                            //OK/Cancel button text color
+                            primaryColor: const Color(0xFF4A5BF6),
+                            colorScheme: ColorScheme.fromSwatch().copyWith(
+                                secondary:
+                                    const Color(0xFF4A5BF6)) //selection color
+                            //dialogBackgroundColor: Colors.white,//Background color
+                            ),
+                        child: child,
+                      );
+                    },
+                  ).then((date) {
                     _currentDate = date;
                   });
                 },
+                child: null,
               )
             ],
           ),
@@ -127,8 +127,7 @@ class _KhataFormState extends State<KhataForm> {
           SizedBox(
             height: 20.0,
           ),
-          RaisedButton(
-            color: TassistPrimary,
+          ElevatedButton(
             child: Text('Submit',
                 style: Theme.of(context)
                     .textTheme

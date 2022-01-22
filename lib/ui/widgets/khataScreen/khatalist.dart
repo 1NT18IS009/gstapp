@@ -36,6 +36,7 @@ class _KhataListState extends State<KhataList> {
                     khataData.removeAt(index);
                   });
                 }
+                // ignore: deprecated_member_use
                 Scaffold.of(context).showSnackBar(
                     new SnackBar(content: Text("Entry deleted permanently.")));
               },

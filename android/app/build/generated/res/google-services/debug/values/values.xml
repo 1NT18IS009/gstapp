@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">235590070309-umcc0b2ec5funb5gdbbn3pi2ubardbdn.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">235590070309</string>
+    <string name="google_api_key" translatable="false">AIzaSyBQhtpCNpA2Df9qXT5KNaYH_7as_ElC844</string>
+    <string name="google_app_id" translatable="false">1:235590070309:android:ee095e2b41e0c6546d8fcc</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBQhtpCNpA2Df9qXT5KNaYH_7as_ElC844</string>
+    <string name="google_storage_bucket" translatable="false">gst-billing-app-5ad4a.appspot.com</string>
+    <string name="project_id" translatable="false">gst-billing-app-5ad4a</string>
+</resources>

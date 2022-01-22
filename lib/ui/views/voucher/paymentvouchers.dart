@@ -47,12 +47,13 @@ class PaymentVoucherList extends StatefulWidget {
 class _PaymentVoucherListState extends State<PaymentVoucherList> {
   TextEditingController editingController = TextEditingController();
   Iterable<Voucher> paymentVoucherData;
+  // ignore: deprecated_member_use
   List<Voucher> paymentVoucherDataforDisplay = List<Voucher>();
 
   @override
   void initState() {
     paymentVoucherData = Provider.of<List<Voucher>>(context, listen: false)
-     .where((voucher) => voucher.primaryVoucherType == 'Payment');
+        .where((voucher) => voucher.primaryVoucherType == 'Payment');
     paymentVoucherData =
         filterVouchersByTimePeriod(paymentVoucherData, widget.timePeriod);
     paymentVoucherDataforDisplay.addAll(paymentVoucherData);
@@ -61,9 +62,11 @@ class _PaymentVoucherListState extends State<PaymentVoucherList> {
   }
 
   void filterSearchResults(String query) {
+    // ignore: deprecated_member_use
     List<Voucher> dummySearchList = List<Voucher>();
     dummySearchList.addAll(paymentVoucherData);
     if (query.isNotEmpty) {
+      // ignore: deprecated_member_use
       List<Voucher> dummyListData = List<Voucher>();
       dummySearchList.forEach((item) {
         if (item.partyname.toLowerCase().contains(query)) {

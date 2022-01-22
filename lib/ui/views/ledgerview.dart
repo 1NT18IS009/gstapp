@@ -66,6 +66,7 @@ class _LedgerViewState extends State<LedgerView>
             uid: user?.uid,
             ledgerId: ledgerGuid,
           ).ledgerStockData,
+          initialData: [],
         ),
         // Gets all vouchers for current ledger
         StreamProvider<List<LedgerVoucherModel>>.value(
@@ -73,6 +74,7 @@ class _LedgerViewState extends State<LedgerView>
             partyName: partyname,
             uid: user?.uid,
           ).ledgerVoucherData,
+          initialData: [],
         )
       ],
       child: WillPopScope(

@@ -36,7 +36,7 @@ class HomeScreenButton extends StatelessWidget {
           const SizedBox(height: 20),
           ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
-            child: RaisedButton(
+            child: ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
@@ -45,8 +45,6 @@ class HomeScreenButton extends StatelessWidget {
                   ),
                 );
               },
-              textColor: Colors.white,
-              padding: const EdgeInsets.all(0.0),
               child: Container(
                 color: Colors.purple,
                 padding: const EdgeInsets.all(10.0),

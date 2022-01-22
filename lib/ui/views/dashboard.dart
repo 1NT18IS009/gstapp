@@ -1,7 +1,3 @@
-// Pending issue - dropdown widget not displaying value
-
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:tassist/core/services/database.dart';
 import 'package:tassist/core/services/timeperiod_filter_service.dart';
 import 'package:tassist/theme/theme.dart';
-// import 'package:tassist/theme/colors.dart';
 import 'package:tassist/ui/shared/drawer.dart';
 import 'package:tassist/ui/shared/headernav.dart';
 import 'package:tassist/ui/views/accountspayablescreen.dart';
@@ -49,10 +44,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return MultiProvider(
         providers: [
           StreamProvider<DocumentSnapshot>.value(
-              value: DatabaseService()
-                  .metricCollection
-                  .doc(user?.uid)
-                  .snapshots()),
+            value:
+                DatabaseService().metricCollection.doc(user?.uid).snapshots(),
+            initialData: null,
+          ),
         ],
         child: WillPopScope(
           onWillPop: () async => false,

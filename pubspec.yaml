@@ -21,26 +21,22 @@ dependencies:
     sdk: flutter
   
   local_auth: ^1.1.10
-  font_awesome_flutter: ^8.4.0
-  material_design_icons_flutter: 3.4.4895
-  flappy_search_bar: 1.4.1
-  share: ^0.6.2+5
+  font_awesome_flutter: ^9.2.0
+  material_design_icons_flutter: ^5.0.6595
+  flappy_search_bar: ^1.7.2
+  share: ^2.0.4
   url_launcher: ^6.0.18
   pdf: ^3.6.5
-  path_provider: ^2.0.5
-  provider: ^3.0.0+1
-  get_it: ^1.0.3+2
+  provider: ^6.0.2
+  get_it: ^7.2.0
   image_picker: ^0.8.4+4
   intl: ^0.17.0
   syncfusion_flutter_pdfviewer: ^19.4.43-beta
+  flutter_statusbar_manager: ^2.0.0
 #  flutter_full_pdf_viewer: ^1.0.6
   # flutter_login: ^1.0.10+1
   # charts_flutter: ^0.8.1
-  esys_flutter_share:
-    git:
-      url: https://github.com/cihadturhan/esys-flutter-share.git
-      ref: nullsafety+embedding-2
-  signature: ^3.0.0
+  signature: ^5.0.0
   firebase_storage: ^10.2.5
   # contact_picker: ^0.0.2
   # native_contact_picker: ^0.0.6
@@ -51,13 +47,16 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
+  cupertino_icons: ^1.0.4
 
   # Firebase dependencies
   firebase_auth: ^3.1.5
-  google_sign_in: ^4.0.4
+  google_sign_in: ^5.2.3
   cloud_firestore: ^3.1.6
-  firebase_analytics: ^5.0.11
+  firebase_analytics: ^9.0.5
+  esys_flutter_share: ^1.0.2
+  path_provider: ^1.1.0
+  firebase_core: ^1.11.0
   # flutter_spinkit: "^4.1.1"
 
 dev_dependencies:

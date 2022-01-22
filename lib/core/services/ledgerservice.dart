@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tassist/core/models/ledger.dart';
+import 'package:tassist/core/models/ledgerItem.dart';
 
 class LedgerItemService {
   final String uid;
@@ -11,7 +11,7 @@ class LedgerItemService {
   Stream<List<LedgerItem>> get inactiveCustomerData {
     return companyCollection
         .doc(this.uid)
-        .collection('ledger')
+        .collection('ledgeritem')
         .where('closing_balance', isEqualTo: 0)
         .where('parentcode', isEqualTo: '20')
         .snapshots()
@@ -21,7 +21,7 @@ class LedgerItemService {
   Stream<List<LedgerItem>> get accountsReceivableData {
     return companyCollection
         .doc(this.uid)
-        .collection('ledger')
+        .collection('ledgeritem')
         .where('restat_total_receivables', isLessThan: 0)
         .snapshots()
         .map(_ledgerItemData);
@@ -30,7 +30,7 @@ class LedgerItemService {
   Stream<List<LedgerItem>> get accountsPayablesData {
     return companyCollection
         .doc(this.uid)
-        .collection('ledger')
+        .collection('ledgeritem')
         .where('restat_total_payables', isGreaterThan: 0)
         .snapshots()
         .map(_ledgerItemData);
@@ -39,7 +39,7 @@ class LedgerItemService {
   Stream<List<LedgerItem>> get ledgerItemData {
     return companyCollection
         .doc(this.uid)
-        .collection('ledger')
+        .collection('ledgeritem')
         .orderBy('name', descending: false)
         .snapshots()
         .map(_ledgerItemData);
@@ -48,7 +48,7 @@ class LedgerItemService {
   Future saveLedger({masterId, name, phone, gst, partyType}) async {
     return await companyCollection
         .doc(this.uid)
-        .collection('ledger')
+        .collection('ledgeritem')
         .doc(masterId)
         .set({
       'name': name,
@@ -72,25 +72,12 @@ class LedgerItemService {
         email: doc['email'].toString() ?? '',
         phone: doc['phone'].toString() ?? '',
         guid: doc['guid'].toString() ?? '',
-        // lastPaymentDate: doc['restat_last_payment_date'].toString() ?? '',
-        // lastPurchaseDate:
-        //     doc['restat_last_purchase_date'].toString() ?? '',
-        // lastReceiptDate: doc['restat_last_receipt_date'].toString() ?? '',
-        // lastSalesDate: doc['restat_last_sales_date'].toString() ?? '',
-        // meanPayment: doc['restat_mean_payment'].toString() ?? '',
-        // meanPurchase: doc['restat_mean_purchase'].toString() ?? '',
-        // meanReceipt: doc['restat_mean_receipt'].toString() ?? '',
-        // meanSales: doc['restat_mean_sales'].toString() ?? '',
         partyGuid: doc['guid'].toString() ?? '',
-        // totalPayables: doc['restat_total_payables'].toString() ?? '',
         totalSales: doc['restat_total_sales'].toString() ?? '',
         totalPayment: doc['restat_total_payment'].toString() ?? '',
         totalPurchase: doc['restat_total_purchase'].toString() ?? '',
         totalReceipt: doc['restat_total_receipt'].toString() ?? '',
-        // totalReceivables: doc['restat_total_receivables'].toString() ?? '',
-        primaryGroupType:
-            doc['restat_primary_group_type'].toString() ?? '',
-
+        primaryGroupType: doc['restat_primary_group_type'].toString() ?? '',
       );
     }).toList();
   }

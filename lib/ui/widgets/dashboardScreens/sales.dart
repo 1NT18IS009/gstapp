@@ -7,7 +7,7 @@ import 'package:tassist/theme/colors.dart';
 
 class SalesDashboardWidget extends StatefulWidget {
   final String timePeriod;
-  
+
   SalesDashboardWidget({this.timePeriod});
 
   @override
@@ -63,7 +63,7 @@ class _SalesDashboardWidgetContentRowState
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Card(
-                                  child: Row(
+                  child: Row(
                     children: <Widget>[
                       // Icon(
                       //   Icons.arrow_drop_up,
@@ -168,7 +168,7 @@ class SalesDashboardWidgetTitleRow extends StatelessWidget {
                         ),
                         elevation: 24.0,
                         actions: <Widget>[
-                          FlatButton(
+                          TextButton(
                               child: Text('Ok'),
                               onPressed: () => Navigator.of(context).pop())
                         ],

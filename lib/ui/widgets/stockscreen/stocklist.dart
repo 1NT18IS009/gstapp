@@ -5,9 +5,8 @@ import 'package:tassist/theme/dimensions.dart';
 import 'package:tassist/ui/widgets/stockscreen/stocktile.dart';
 
 class StockItemList extends StatefulWidget {
-  
   // Stream<List<StockItem>> stockItemData;
-  
+
   // StockItemList({this.stockItemData});
 
   @override
@@ -18,11 +17,11 @@ class _StockItemListState extends State<StockItemList> {
   TextEditingController editingController = TextEditingController();
 
   List<StockItem> stockItemData;
+  // ignore: deprecated_member_use
   List<StockItem> stockItemDataforDisplay = List<StockItem>();
 
   @override
   void initState() {
-    
     // stockItemData = [];
     // print('data ayga');
     // widget.stockItemData.listen((value) {
@@ -38,7 +37,6 @@ class _StockItemListState extends State<StockItemList> {
     //   print(stockItemData.length);
     // });
 
-    
     // // print('----------+++++---------');
     // // print(Provider.of(context, listen: false));
     // // print('----------+++++---------');
@@ -49,9 +47,11 @@ class _StockItemListState extends State<StockItemList> {
   }
 
   void filterSearchResults(String query) {
+    // ignore: deprecated_member_use
     List<StockItem> dummySearchList = List<StockItem>();
     dummySearchList.addAll(stockItemData);
     if (query.isNotEmpty) {
+      // ignore: deprecated_member_use
       List<StockItem> dummyListData = List<StockItem>();
       dummySearchList.forEach((item) {
         if (item.name.toLowerCase().contains(query)) {
@@ -81,7 +81,8 @@ class _StockItemListState extends State<StockItemList> {
           children: <Widget>[
             Padding(
               padding: spacer.all.xxs,
-              child: Text('Total Stock Items: ${stockItemDataforDisplay.length}'),
+              child:
+                  Text('Total Stock Items: ${stockItemDataforDisplay.length}'),
             ),
             Container(
               padding: spacer.bottom.xs,
@@ -102,7 +103,7 @@ class _StockItemListState extends State<StockItemList> {
                       counterStyle: Theme.of(context).textTheme.bodyText2,
                       prefixIcon: Icon(Icons.search),
                       border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
+                        borderRadius: BorderRadius.all(
                           Radius.circular(25.0),
                         ),
                       ),
@@ -117,7 +118,8 @@ class _StockItemListState extends State<StockItemList> {
                 shrinkWrap: true,
                 itemCount: stockItemDataforDisplay?.length ?? 0,
                 itemBuilder: (context, index) {
-                  return StockItemTile(stockItem: stockItemDataforDisplay[index]);
+                  return StockItemTile(
+                      stockItem: stockItemDataforDisplay[index]);
                 },
               ),
             ),

@@ -17,6 +17,7 @@ class _SalesVoucherListState extends State<SalesVoucherList> {
   TextEditingController editingController = TextEditingController();
 
   Iterable<Voucher> salesVoucherData;
+  // ignore: deprecated_member_use
   List<Voucher> salesVoucherDataforDisplay = List<Voucher>();
 
   @override
@@ -32,9 +33,11 @@ class _SalesVoucherListState extends State<SalesVoucherList> {
   }
 
   void filterSearchResults(String query) {
+    // ignore: deprecated_member_use
     List<Voucher> dummySearchList = List<Voucher>();
     dummySearchList.addAll(salesVoucherData);
     if (query.isNotEmpty) {
+      // ignore: deprecated_member_use
       List<Voucher> dummyListData = List<Voucher>();
       dummySearchList.forEach((item) {
         if (item.partyname.toLowerCase().contains(query)) {

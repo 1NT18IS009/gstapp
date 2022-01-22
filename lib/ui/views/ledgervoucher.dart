@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tassist/core/models/ledger.dart';
+import 'package:tassist/core/models/ledgerItem.dart';
 import 'package:tassist/core/models/ledgervoucher.dart';
 import 'package:tassist/theme/colors.dart';
 import 'package:tassist/theme/dimensions.dart';
@@ -21,8 +21,6 @@ class LedgerVoucher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-
     return ListView(
       children: <Widget>[
         VoucherList(
@@ -52,6 +50,7 @@ class _VoucherListState extends State<VoucherList> {
   TextEditingController editingController = TextEditingController();
 
   List<LedgerVoucherModel> voucherData;
+  // ignore: deprecated_member_use
   List<LedgerVoucherModel> voucherDataforDisplay = List<LedgerVoucherModel>();
 
   String uid;
@@ -62,7 +61,7 @@ class _VoucherListState extends State<VoucherList> {
 
     // Get all vouchers for current party/ledger
     voucherData = Provider.of<List<LedgerVoucherModel>>(context, listen: false);
-        // .where((voucherData) => voucherData.partyname == partyname);
+    // .where((voucherData) => voucherData.partyname == partyname);
     // voucherData = filterVouchersByTimePeriod(voucherData, widget.timePeriod);
     voucherDataforDisplay.addAll(voucherData);
 
@@ -70,9 +69,11 @@ class _VoucherListState extends State<VoucherList> {
   }
 
   void filterSearchResults(String query) {
+    // ignore: deprecated_member_use
     List<LedgerVoucherModel> dummySearchList = List<LedgerVoucherModel>();
     dummySearchList.addAll(voucherData);
     if (query.isNotEmpty) {
+      // ignore: deprecated_member_use
       List<LedgerVoucherModel> dummyListData = List<LedgerVoucherModel>();
       dummySearchList.forEach((item) {
         if (item.primaryVoucherType.toLowerCase().contains(query)) {
@@ -113,7 +114,7 @@ class _VoucherListState extends State<VoucherList> {
                   Row(children: <Widget>[
                     Container(
                         // height: 30.0,
-                        width: MediaQuery.of(context).size.width/1.1,
+                        width: MediaQuery.of(context).size.width / 1.1,
                         child: Text(
                           ledger.name,
                           overflow: TextOverflow.ellipsis,
@@ -128,8 +129,6 @@ class _VoucherListState extends State<VoucherList> {
                           'GST: ${ledger.gst}',
                           style: TextStyle(color: TassistInfoGrey),
                         ),
-                        
-                        
                       ])
                 ],
               ),

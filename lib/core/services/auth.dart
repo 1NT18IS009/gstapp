@@ -45,7 +45,7 @@ class AuthService {
         'total_purchases': 50000,
         'total_receipts': 0,
         'out_actual_rec': 100000,
-        'out_actual_pay':50000,
+        'out_actual_pay': 50000,
         'net_profit': '1000 Cr',
         'cash_in_hand': '12000 Dr',
         'cash_in_bank': '42000 Dr'
@@ -92,7 +92,7 @@ class AuthService {
       FirebaseFirestore.instance
           .collection('company')
           .doc(user.uid)
-          .collection('ledger')
+          .collection('ledgeritem')
           .doc('1')
           .set(
         {
@@ -111,14 +111,13 @@ class AuthService {
           'phone': '9999999999',
           'guid': '1',
           'gst': 'XXXXXXXXXXXX',
-          // 'restat_primary_group_type': 'Sundry Debtors',
         },
       );
 
       FirebaseFirestore.instance
           .collection('company')
           .doc(user.uid)
-          .collection('ledger')
+          .collection('ledgeritem')
           .doc('2')
           .set(
         {
@@ -137,14 +136,13 @@ class AuthService {
           'phone': '',
           'guid': '2',
           'gst': '',
-          // 'restat_primary_group_type': '',
         },
       );
 
       FirebaseFirestore.instance
           .collection('company')
           .doc(user.uid)
-          .collection('ledger')
+          .collection('ledgeritem')
           .doc('3')
           .set({
         'name': 'BCD Ltd',
@@ -162,13 +160,12 @@ class AuthService {
         'phone': '9898989898',
         'guid': '3',
         'gst': 'ABCD1234PQ56',
-        // 'restat_primary_group_type': 'Sundry Creditors',
       });
 
       FirebaseFirestore.instance
           .collection('company')
           .doc(user.uid)
-          .collection('ledger')
+          .collection('ledgeritem')
           .doc('4')
           .set({
         'name': 'GST @ 18%',
@@ -196,7 +193,6 @@ class AuthService {
           .doc('1')
           .set({
         'vdate': DateTime.now(),
-        // 'restat_party_ledger_name': 'ABC Ltd',
         'amount': 2596,
         'masterid': '1',
         'guid': '1',
@@ -240,12 +236,10 @@ class AuthService {
         ],
       });
 
-      // Ledger Stock
-
       FirebaseFirestore.instance
           .collection('company')
           .doc(user.uid)
-          .collection('ledger')
+          .collection('ledgeritem')
           .doc('1')
           .collection('ledger_stock_metrics')
           .doc('1')
@@ -256,7 +250,6 @@ class AuthService {
         'last_voucher_date': DateTime.now(),
         'mean_amount': '2596',
         'num_vouchers': '1',
-        // 'restat_stock_item_name': 'Wheat',
         'stockitemname': '1',
         'total_actualqty': '10',
         'total_amount': '2596',
@@ -275,19 +268,12 @@ class AuthService {
         'restat_voucher_date': DateTime.now(),
         'restat_voucher_master_id': '1',
         'rate': 220,
-        // 'primary_voucher_type_name': 'Sales',
         'gstpercent': '18',
         'billedqty': 10,
         'actualqty': 10,
         'amount': 2596,
         'taxamount': 396,
       });
-
-      // Firestore.instance
-      //     .collection('company')
-      //     .doc(user.uid)
-      //     .collection('ledger_entries');
-
       return _userFromFirebaseUser(user);
     } catch (error) {
       print(error.toString());
@@ -352,9 +338,10 @@ class AuthService {
     _authCredential = PhoneAuthProvider.credential(
         verificationId: actualCode, smsCode: smsCode);
 
-    _auth.signInWithCredential(_authCredential).then((UserCredential result) async {
+    _auth
+        .signInWithCredential(_authCredential)
+        .then((UserCredential result) async {
       print('Authentication successful');
-      // onAuthenticationSuccessful();
     }).catchError((error) {
       print(
           'Something has gone wrong, please try later(signInWithPhoneNumber) $error');
@@ -371,41 +358,3 @@ class AuthService {
     }
   }
 }
-
-// import 'dart:async';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:tassist/database.dart';
-
-// abstract class BaseAuth {
-//   Future<String> signIn(String email, String password);
-//   Future<String> signUp(String email, String password);
-//   Future<FirebaseUser> getCurrentUser();
-//   Future<void> signOut();
-// }
-
-// class Auth implements BaseAuth {
-//   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-//   Future<String> signIn(String email, String password) async {
-//     // FirebaseUser user = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-//     AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-//     FirebaseUser user = result.user;
-//     return user.uid;
-//   }
-//   Future<String> signUp(String email, String password) async {
-//     AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-//     FirebaseUser user = result.user;
-//     var userId = user.uid;
-
-//     // create a new metric doc when a user signs up
-//     await DatabaseService( uid: userId ).createMetricsRecord();
-
-//     return userId;
-//   }
-//   Future<FirebaseUser> getCurrentUser() async {
-//     FirebaseUser user = await _firebaseAuth.currentUser();
-//     return user;
-//   }
-//   Future<void> signOut() async {
-//     return _firebaseAuth.signOut();
-//   }
-// }

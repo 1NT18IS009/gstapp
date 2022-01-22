@@ -29,8 +29,6 @@ class LedgerPartyService {
         ledgerGuid: doc['ledger_guid'].toString() ?? '',
         ledgerMasterId: doc['ledgername'].toString() ?? '',
         ledgerRefMasterId: doc['ledgerrefname'].toString() ?? '',
-        // primaryVoucherType:
-        //     doc['primary_voucher_type_name'].toString() ?? '',
         primaryGroup: doc['primarygroup'].toString() ?? '',
         ledgerName: doc['restat_ledger_name'].toString() ?? '',
         ledgerRefName: doc['restat_ledger_ref_name'].toString() ?? '',

@@ -64,9 +64,7 @@ class _PhoneAuthVerifyState extends State<PhoneAuthVerify> {
                 },
               ),
               SizedBox(height: 20.0),
-              RaisedButton(
-                  color: TassistPrimaryBackground,
-                  elevation: 20.0,
+              ElevatedButton(
                   child: Text(
                     'Verify OTP',
                     style: TextStyle(color: Colors.white),

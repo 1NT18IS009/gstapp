@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:tassist/core/models/company.dart';
-import 'package:tassist/core/models/ledger.dart';
+import 'package:tassist/core/models/ledgerItem.dart';
 // import 'package:tassist/core/models/ledgervoucher.dart';
 import 'package:tassist/core/models/vouchers.dart';
 import 'package:tassist/templates/ledgeraccount_pdf_template.dart';
@@ -31,10 +32,6 @@ _formatDate(DateTime date) {
   }
 }
 
-
-
-
-
 class LedgerSummary2 extends StatelessWidget {
   final String ledgerGuid;
   final String partyName;
@@ -47,8 +44,8 @@ class LedgerSummary2 extends StatelessWidget {
             .where((item) => item.guid == ledgerGuid) ??
         [];
     LedgerItem ledger = ledgerItem?.elementAt(0) ?? [];
-    
-     _launchURL() async {
+
+    _launchURL() async {
       var url = 'https://api.whatsapp.com/send?phone=${ledger.phone}';
       if (await canLaunch(url)) {
         await launch(url);
@@ -56,12 +53,6 @@ class LedgerSummary2 extends StatelessWidget {
         throw 'Could not launch $url';
       }
     }
-
-
-
-
-
-
 
     // Here we get all vouchers for current ledger
     List<Voucher> voucherData;
@@ -73,15 +64,13 @@ class LedgerSummary2 extends StatelessWidget {
     Company company;
     company = Provider.of<Company>(context, listen: false);
 
-    
-
-
     // final GlobalKey<ScaffoldState> _drawerKey = new GlobalKey<ScaffoldState>();
 
     return WillPopScope(
-        onWillPop: () async => false,
-        child: SingleChildScrollView(
-          child: Column(children: <Widget>[
+      onWillPop: () async => false,
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
             Padding(
               padding: spacer.all.xs,
               child: Column(
@@ -107,25 +96,27 @@ class LedgerSummary2 extends StatelessWidget {
                         Row(
                           children: <Widget>[
                             // PDF Sharing button
-                            RaisedButton(
+                            ElevatedButton(
                               child: Row(
                                 children: <Widget>[
-                                  Text('Send PDF', style: TextStyle(color: TassistMenuBg),),
-
+                                  Text(
+                                    'Send PDF',
+                                    style: TextStyle(color: TassistMenuBg),
+                                  ),
                                 ],
                               ),
                               onPressed: () => viewPdf(
                                   context, voucherData, company, ledger),
-                              color: TassistBgLightPurple,
                             ),
                             SizedBox(
                               width: 10,
                             ),
-                            IconButton(icon: Icon(
-                              FontAwesomeIcons.whatsapp,
-                              color: TassistSuccess,
-                            ), onPressed: () => _launchURL())
-                            
+                            IconButton(
+                                icon: Icon(
+                                  FontAwesomeIcons.whatsapp,
+                                  color: TassistSuccess,
+                                ),
+                                onPressed: () => _launchURL())
                           ],
                         )
                       ])
@@ -135,8 +126,7 @@ class LedgerSummary2 extends StatelessWidget {
             Container(height: 3.0, color: TassistPrimary),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: 
-              Column(
+              child: Column(
                 children: <Widget>[
                   Padding(
                     padding: spacer.all.xxs,
@@ -162,54 +152,51 @@ class LedgerSummary2 extends StatelessWidget {
               ),
             ),
             Padding(
-                    padding: spacer.all.xs,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text('Total Sales'),
-                        Text('${formatIndianCurrency(ledger.totalSales)}')
-                      ],
-                    ),
-                  ),
-             Padding(
-                    padding: spacer.all.xs,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text('Total Receipts'),
-                        Text('${formatIndianCurrency(ledger.totalReceipt)}')
-                      ],
-                    ),
-                  ),
-
-             Padding(
-                    padding: spacer.all.xs,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text('Total Purchases'),
-                        Text('${formatIndianCurrency(ledger.totalPurchase)}')
-                      ],
-                    ),
-                  ),
-
-               Padding(
-                    padding: spacer.all.xs,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text('Total Payment'),
-                        Text('${formatIndianCurrency(ledger.totalPayment)}')
-                      ],
-                    ),
-                  ),
+              padding: spacer.all.xs,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('Total Sales'),
+                  Text('${formatIndianCurrency(ledger.totalSales)}')
                 ],
               ),
             ),
-        );
+            Padding(
+              padding: spacer.all.xs,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('Total Receipts'),
+                  Text('${formatIndianCurrency(ledger.totalReceipt)}')
+                ],
+              ),
+            ),
+            Padding(
+              padding: spacer.all.xs,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('Total Purchases'),
+                  Text('${formatIndianCurrency(ledger.totalPurchase)}')
+                ],
+              ),
+            ),
+            Padding(
+              padding: spacer.all.xs,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('Total Payment'),
+                  Text('${formatIndianCurrency(ledger.totalPayment)}')
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
-
 
 viewPdf(context, voucherData, company, ledger) async {
   // CREATE LEDGER LIST
@@ -228,7 +215,6 @@ viewPdf(context, voucherData, company, ledger) async {
     List<String> tempList;
     String natureTransaction;
 
-    // TODO: what if amount is equal to 0?
     if (voucherData[i].amount > 0) {
       natureTransaction = 'Dr.';
     } else {
@@ -246,9 +232,8 @@ viewPdf(context, voucherData, company, ledger) async {
 
   final pdf = createLedgerPdf(
     companyName: company.formalName,
-    startDate: '01-04-2020', //TODO need to make this dynamic
-    endDate: DateFormat('dd-MM-yyyy')
-        .format(DateTime.now()), // TODO need to make this dynamic
+    startDate: '01-04-2020',
+    endDate: DateFormat('dd-MM-yyyy').format(DateTime.now()),
     partyName: ledger.name,
     ledgerList: ledgerList,
     openingBalance: ledger.openingBalance.toString(),
@@ -274,7 +259,8 @@ viewPdf(context, voucherData, company, ledger) async {
           'Statement_tallyassist.pdf': bytes1,
         },
         '*/*',
-        text: 'Please find your party statement. Thanks for doing business with us!');
+        text:
+            'Please find your party statement. Thanks for doing business with us!');
   } catch (e) {
     print('error: $e');
   }
@@ -294,8 +280,8 @@ class PdfViewerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PDFViewerScaffold(
-      path: path,
+    return Scaffold(
+      body: SfPdfViewer.asset(path),
     );
   }
 }

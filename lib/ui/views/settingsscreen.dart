@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tassist/core/services/companyservice.dart';
 import 'package:tassist/core/services/storageservice.dart';
-import 'package:tassist/theme/dimensions.dart';
 import 'package:tassist/theme/theme.dart';
 import 'package:tassist/ui/shared/drawer.dart';
 import 'package:tassist/ui/shared/headernav.dart';
@@ -75,8 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
               // SAVE LOGO BUTTON
-              RaisedButton(
-                color: TassistPrimaryDarkButtonShadow,
+              ElevatedButton(
                 child: Text('Save logo',
                     style: Theme.of(context)
                         .textTheme
@@ -97,7 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   //       style: secondaryListTitle,
                   //     ),
                   //     actions: <Widget>[
-                  //       FlatButton(
+                  //       TextButton(
                   //           onPressed: () => Navigator.of(context).pop(),
                   //           child: Text(
                   //             'Awesome!',
@@ -216,8 +214,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               // SAVE INFO BUTTON
-              RaisedButton(
-                color: TassistPrimaryDarkButtonShadow,
+              ElevatedButton(
                 child: Text('Submit company info',
                     style: Theme.of(context)
                         .textTheme
@@ -239,7 +236,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     //     style: secondaryListTitle,
                     //   ),
                     //   actions: <Widget>[
-                    //     FlatButton(
+                    //     TextButton(
                     //         onPressed: () => Navigator.of(context).pop(),
                     //         child: Text(
                     //           'Awesome!',
@@ -255,7 +252,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 padding: spacer.all.xs,
                 child: Text('Record your signature (for GST Invoice)'),
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () => showDialog(
                   context: context,
                   builder: (context) {
@@ -289,7 +286,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 //               child: Column(
                                 //                 children: <Widget>[
                                 //                   Image.memory(data),
-                                //                   FlatButton(
+                                //                   TextButton(
                                 // onPressed: () => Navigator.of(context).pop(),
                                 // child: Text(
                                 //   'Close',
@@ -325,9 +322,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         .textTheme
                         .bodyText1
                         .copyWith(color: TassistWhite)),
-                color: TassistPrimaryDarkButtonShadow,
-                textColor: Colors.white,
-                elevation: 5,
               ),
 
               //SIGNATURE CANVAS
@@ -378,7 +372,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // DELETE (EVERYTHING) BUTTON
           bottomNavigationBar: Padding(
             padding: spacer.all.xs,
-            child: RaisedButton(
+            child: ElevatedButton(
               onPressed: () => showDialog(
                 context: context,
                 builder: (context) {
@@ -388,13 +382,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         style: secondaryListTitle,
                       ),
                       actions: <Widget>[
-                        FlatButton(
+                        TextButton(
                             onPressed: () => _launchURL(),
                             child: Text(
                               'Yes',
                               style: secondaryListDisc,
                             )),
-                        FlatButton(
+                        TextButton(
                             onPressed: () => Navigator.of(context).pop(),
                             child: Text(
                               'Cancel',
@@ -404,9 +398,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               ),
               child: Text('Delete Account', style: TextStyle(fontSize: 20)),
-              color: TassistWarning,
-              textColor: Colors.white,
-              elevation: 5,
             ),
           ),
         ));

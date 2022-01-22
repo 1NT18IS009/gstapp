@@ -24,7 +24,8 @@ class ProductionScreen extends StatelessWidget {
               padding: spacer.all.xs,
               child: ProductionForm(),
             );
-          });
+          },
+          settings: null);
     }
 
     final GlobalKey<ScaffoldState> _drawerKey = new GlobalKey<ScaffoldState>();
@@ -33,9 +34,10 @@ class ProductionScreen extends StatelessWidget {
     return StreamProvider<List<Production>>.value(
       //IDFixTODO - pass user to database service
       value: DatabaseService(uid: user.uid).productionData,
-      child:  WillPopScope (
-              onWillPop: () async => false,
-              child: Scaffold(
+      initialData: [],
+      child: WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
           key: _drawerKey,
           drawer: tassistDrawer(context),
           appBar: headerNav(_drawerKey),

@@ -11,7 +11,7 @@ class PayablesItemService {
   Stream<List<PayablesItem>> get accountsPayablesData {
     return companyCollection
         .doc(this.uid)
-        .collection('ledger')
+        .collection('ledgeritem')
         .where('restat_primary_group_type',
             whereIn: ['Sundry Debtors', 'Sundry Creditors'])
         .where('closing_balance', isGreaterThan: 0)

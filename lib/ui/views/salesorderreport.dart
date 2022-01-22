@@ -21,10 +21,12 @@ class SalesOrderReportScreen extends StatelessWidget {
     return MultiProvider(
         providers: [
           StreamProvider<DocumentSnapshot>.value(
-              value: DatabaseService(uid: user?.uid)
-                  .metricCollection
-                  .doc(user.uid)
-                  .snapshots()),
+            value: DatabaseService(uid: user?.uid)
+                .metricCollection
+                .doc(user.uid)
+                .snapshots(),
+            initialData: null,
+          ),
         ],
         child: WillPopScope(
           onWillPop: () async => false,
@@ -78,15 +80,18 @@ class SalesOrderReportScreen extends StatelessWidget {
                       children: <Widget>[
                         ColoredIconNumberRow('total_sales', 'Amount Sold'),
                         // ColoredIconNumberRow('open_sales_orders', 'Open Orders'),
-                        ColoredIconNumberRow('num_sales_vouchers', '# Vouchers'),
+                        ColoredIconNumberRow(
+                            'num_sales_vouchers', '# Vouchers'),
                       ],
                     ),
                     Column(
                       children: <Widget>[
                         // ColoredIconNumberRow('qty_sales_order', 'Ordered Qty'),
                         // ColoredIconNumberRow('qty_sales_due', 'Quantity Due'),
-                        ColoredIconNumberRow('total_receipts', 'Total Receipts'),                
-                        ColoredIconNumberRow('num_receipts_vouchers', '# Vouchers'),
+                        ColoredIconNumberRow(
+                            'total_receipts', 'Total Receipts'),
+                        ColoredIconNumberRow(
+                            'num_receipts_vouchers', '# Vouchers'),
                       ],
                     )
                   ],

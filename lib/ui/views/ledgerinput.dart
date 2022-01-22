@@ -4,20 +4,18 @@ import 'dart:typed_data';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:tassist/core/models/company.dart';
-import 'package:tassist/core/models/ledger.dart';
+import 'package:tassist/core/models/ledgerItem.dart';
 import 'package:tassist/core/models/stockitem.dart';
 import 'package:tassist/core/models/voucher-item.dart';
 import 'package:tassist/core/services/storageservice.dart';
 import 'package:tassist/core/services/voucher-item-service.dart';
 import 'package:tassist/core/services/vouchers.dart';
 import 'package:tassist/templates/invoice_pdf_template.dart';
-import 'package:tassist/theme/colors.dart';
-import 'package:tassist/theme/texts.dart';
 import 'package:tassist/theme/theme.dart';
 import 'package:tassist/ui/shared/drawer.dart';
 import 'package:tassist/ui/shared/headernav.dart';
@@ -36,7 +34,7 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String _invoiceNumber = Random().nextInt(1000).toString();
-  String _masterId = Random().nextInt(1000  ).toString();
+  String _masterId = Random().nextInt(1000).toString();
   // Customer details
   LedgerItem _customerLedger;
   String _customerName = '';
@@ -60,9 +58,33 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
       .format(DateTime.now().add(new Duration(days: 30)));
   bool isCashSwitched = true;
   //      final List<String> discountPerCent = ['5','10', '15', '20'];
-  // TODO due date to be changed as per credit period.
 
   // String _currentDiscount;
+  DateTime currentDate = DateTime.now();
+  DateTime currentDueDate = DateTime.now();
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime pickedDate = await showDatePicker(
+        context: context,
+        initialDate: currentDate,
+        firstDate: DateTime(2018),
+        lastDate: DateTime(2025));
+    if (pickedDate != null && pickedDate != currentDate)
+      setState(() {
+        currentDate = pickedDate;
+      });
+  }
+
+  Future<void> _selectDueDate(BuildContext context) async {
+    final DateTime pickedDate = await showDatePicker(
+        context: context,
+        initialDate: currentDueDate,
+        firstDate: DateTime(2018),
+        lastDate: DateTime(2025));
+    if (pickedDate != null && pickedDate != currentDate)
+      setState(() {
+        currentDueDate = pickedDate;
+      });
+  }
 
   cashCredit(bool isCashSwitched) {
     if (isCashSwitched == true) {
@@ -107,35 +129,11 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                           ),
                           Text('Date:',
                               style: TextStyle(color: TassistInfoGrey)),
-                          Text(_currentDate),
+                          Text("${currentDate.toLocal()}".split(' ')[0]),
                           IconButton(
                             icon: Icon(Icons.date_range),
                             color: TassistMenuBg,
-                            onPressed: () {
-                              showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2001),
-                                lastDate: DateTime(2022),
-                                builder: (BuildContext context, Widget child) {
-                                  return Theme(
-                                    data: ThemeData.light().copyWith(
-                                        //OK/Cancel button text color
-                                        primaryColor: const Color(
-                                            0xFF4A5BF6), //Head background
-                                        accentColor: const Color(
-                                            0xFF4A5BF6) //selection color
-                                        //dialogBackgroundColor: Colors.white,//Background color
-                                        ),
-                                    child: child,
-                                  );
-                                },
-                              ).then((date) {
-                                _invoiceDateRaw = date;
-                                _currentDate =
-                                    DateFormat('dd-MM-yyyy').format(date);
-                              });
-                            },
+                            onPressed: () => _selectDate(context),
                           )
                         ])),
                 Padding(
@@ -158,35 +156,12 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                         Text('Due Date:',
                             style: secondaryListDisc.copyWith(
                                 color: TassistInfoGrey)),
-                        Text('$_dueDate'),
+                        Text("${currentDueDate.toLocal()}".split(' ')[0]),
                         IconButton(
                           icon: Icon(Icons.date_range),
                           color: TassistMenuBg,
-                          onPressed: () {
-                            showDatePicker(
-                              context: context,
-                              initialDate:
-                                  DateTime.now().add(new Duration(days: 30)),
-                              firstDate: DateTime(2001),
-                              lastDate: DateTime(2022),
-                              builder: (BuildContext context, Widget child) {
-                                return Theme(
-                                  data: ThemeData.light().copyWith(
-                                      //OK/Cancel button text color
-                                      primaryColor: const Color(
-                                          0xFF4A5BF6), //Head background
-                                      accentColor: const Color(
-                                          0xFF4A5BF6) //selection color
-                                      //dialogBackgroundColor: Colors.white,//Background color
-                                      ),
-                                  child: child,
-                                );
-                              },
-                            ).then((date) {
-                              _dueDate = DateFormat('dd-MM-yyyy').format(date);
-                            });
-                          },
-                        ),
+                          onPressed: () => _selectDueDate(context),
+                        )
                       ]),
                 ),
                 Padding(
@@ -233,22 +208,8 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                         ),
                       ),
                     ),
-                    // decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.all(Radius.circular(8)),
-                    //     color: TassistBgLightPurple)
                   ),
                 ),
-                // Padding(
-                //   padding: spacer.x.xxs,
-                //   child: Text(
-                //     _customerName,
-                //     overflow: TextOverflow.ellipsis,
-                //     maxLines: 2,
-                //     style: Theme.of(context).textTheme.headline6.copyWith(
-                //           fontSize: 12.0,
-                //         ),
-                //   ),
-                // ),
                 Padding(
                   padding: spacer.x.xxs,
                   child: Row(
@@ -322,28 +283,32 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                           isExpanded: true,
                           items: <DropdownMenuItem>[
                             DropdownMenuItem(
-                              child: Text('IGST', style: secondaryListDisc.copyWith(fontSize: 12)),
+                              child: Text('IGST',
+                                  style:
+                                      secondaryListDisc.copyWith(fontSize: 12)),
                               value: 'igst',
                             ),
                             DropdownMenuItem(
-                              child:
-                                  Text('CGST & SGST', style: secondaryListDisc.copyWith(fontSize: 12)),
+                              child: Text('CGST & SGST',
+                                  style:
+                                      secondaryListDisc.copyWith(fontSize: 12)),
                               value: 'cgst & sgst',
                             ),
                           ],
                           // value: 'igst',
-                          decoration: InputDecoration( 
+                          decoration: InputDecoration(
                               isDense: true,
                               enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
                               labelText: 'GST Type',
                               // AT: This should be a dropdown
-                              labelStyle: secondaryListDisc.copyWith(fontSize: 14)),
+                              labelStyle:
+                                  secondaryListDisc.copyWith(fontSize: 14)),
                           onChanged: (val) => setState(() => _gstType = val),
                         ),
                       ),
-                          SizedBox(width: 10),
+                      SizedBox(width: 10),
                       Flexible(
                         flex: 1,
                         child: new TextFormField(
@@ -352,7 +317,8 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                           decoration: InputDecoration(
                               labelText: 'GST %',
                               // AT: This should be a dropdown
-                              labelStyle: secondaryListDisc.copyWith(fontSize: 14)),
+                              labelStyle:
+                                  secondaryListDisc.copyWith(fontSize: 14)),
                           onChanged: (val) =>
                               setState(() => _gstPercentage = val),
                         ),
@@ -360,17 +326,6 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                     ],
                   ),
                 ),
-                // Padding(
-                //   padding: spacer.x.xxs,
-                //   child: Text(
-                //     _productName,
-                //     overflow: TextOverflow.ellipsis,
-                //     maxLines: 2,
-                //     style: Theme.of(context).textTheme.headline6.copyWith(
-                //           fontSize: 12.0,
-                //         ),
-                //   ),
-                // ),
                 Padding(
                   padding: spacer.x.xs,
                   child: new Row(
@@ -411,7 +366,7 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                         width: 20.0,
                       ),
                       new Flexible(
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           // Add to productList
                           onPressed: () {
                             // 'Product 1', 'HSN Code: ABCDEF',
@@ -444,7 +399,7 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                                 _productName,
                                 'HSN Code: ',
                                 '$_productQuantity Qty @ $_productPrice/item',
-                                'CGST & SGST @ ${double.parse(_gstPercentage) / 2 } % : $gstAmount',
+                                'CGST & SGST @ ${double.parse(_gstPercentage) / 2} % : $gstAmount',
                                 'Amount: $amount',
                                 'Discount: ',
                               ];
@@ -481,9 +436,9 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                             Icons.add,
                             color: TassistWhite,
                           ),
-                          color: TassistPrimaryDarkButtonShadow,
-                          textColor: Colors.white,
-                          elevation: 5,
+                          // color: TassistPrimaryDarkButtonShadow,
+                          // textColor: Colors.white,
+                          // elevation: 5,
                         ),
                       ),
                     ],
@@ -557,7 +512,8 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                         child: Column(
                           children: <Widget>[
                             Text('Total: $_totalAmount',
-                                style: secondaryListTitle.copyWith(fontSize: 18)),
+                                style:
+                                    secondaryListTitle.copyWith(fontSize: 18)),
                             Text(
                               'Tax: $_totalTax',
                               style: secondaryListTitle2,
@@ -576,7 +532,7 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                 Flexible(
                   child: ButtonTheme(
                     minWidth: MediaQuery.of(context).size.width / 2,
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       onPressed: () async {
                         String logoPath;
                         if (company.hasLogo == '1') {
@@ -601,10 +557,9 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                           logoPath: logoPath,
                         );
                       },
-                      child: Text('Preview', style: TextStyle(fontSize: 20, fontFamily: 'Proxima-Nova')),
-                      color: TassistInfoGrey,
-                      textColor: Colors.white,
-                      elevation: 5,
+                      child: Text('Preview',
+                          style: TextStyle(
+                              fontSize: 20, fontFamily: 'Proxima-Nova')),
                     ),
                   ),
                 ),
@@ -612,7 +567,7 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                 Flexible(
                   child: ButtonTheme(
                     minWidth: MediaQuery.of(context).size.width / 2,
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       onPressed: () async {
                         await VoucherService(uid: uid).saveVoucherRecord(
                           amount: (_totalProductPrice + _totalTax),
@@ -668,10 +623,9 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                           logoPath: logoPath,
                         );
                       },
-                      child: Text('Send', style: TextStyle(fontSize: 20, fontFamily: 'Proxima-Nova`')),
-                      color: TassistPrimary,
-                      textColor: Colors.white,
-                      elevation: 5,
+                      child: Text('Send',
+                          style: TextStyle(
+                              fontSize: 20, fontFamily: 'Proxima-Nova`')),
                     ),
                   ),
                 ),
@@ -749,8 +703,8 @@ class PdfViewerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PDFViewerScaffold(
-      path: path,
+    return Scaffold(
+      body: SfPdfViewer.asset(path),
     );
   }
 }

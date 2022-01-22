@@ -57,7 +57,7 @@ class _WelcomeScreen2State extends State<WelcomeScreen2> {
             children: <Widget>[
               Container(
                 alignment: Alignment.centerRight,
-                child: FlatButton(
+                child: TextButton(
                   onPressed: () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => HomeDashboardScreen(),
@@ -183,7 +183,7 @@ class _WelcomeScreen2State extends State<WelcomeScreen2> {
                       flex: 1,
                       child: Align(
                         alignment: FractionalOffset.bottomRight,
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () {
                             _pageController.nextPage(
                               duration: Duration(milliseconds: 500),

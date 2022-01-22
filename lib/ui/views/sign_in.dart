@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:tassist/core/services/auth.dart';
 import 'package:tassist/theme/colors.dart';
 import 'package:tassist/ui/root_page.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -37,7 +36,7 @@ class _SignInState extends State<SignIn> {
                 .headline6
                 .copyWith(color: TassistWhite)),
         actions: <Widget>[
-          FlatButton.icon(
+          TextButton.icon(
             icon: Icon(
               Icons.person,
               color: TassistWhite,
@@ -88,9 +87,7 @@ class _SignInState extends State<SignIn> {
                 },
               ),
               SizedBox(height: 20.0),
-              RaisedButton(
-                  color: TassistPrimaryBackground,
-                  elevation: 20.0,
+              ElevatedButton(
                   child: Text(
                     'Sign In',
                     style: TextStyle(color: Colors.white),
@@ -119,38 +116,28 @@ class _SignInState extends State<SignIn> {
                 error,
                 style: TextStyle(color: Colors.red, fontSize: 14.0),
               ),
-            //   Text(
-            //       'Have you installed the Tally Connector yet?',
-            //       style: Theme.of(context)
-            //       .textTheme
-            //       .headline6
-            //       .copyWith(fontSize: 18.0, color: TassistMainText),
-            //     ),
-            //     SizedBox(height: 30),
-            //      RaisedButton( 
-            //        color: TassistBgLightPurple,
-            //        child:
-            //        Row(children: <Widget>[
-            //       Icon(FontAwesomeIcons.laptop),
-            //       SizedBox(width: 30),
-            //       Text('Launch the Tally Connector website')
+              //   Text(
+              //       'Have you installed the Tally Connector yet?',
+              //       style: Theme.of(context)
+              //       .textTheme
+              //       .headline6
+              //       .copyWith(fontSize: 18.0, color: TassistMainText),
+              //     ),
+              //     SizedBox(height: 30),
+              //      ElevatedButton(
+              //        color: TassistBgLightPurple,
+              //        child:
+              //        Row(children: <Widget>[
+              //       Icon(FontAwesomeIcons.laptop),
+              //       SizedBox(width: 30),
+              //       Text('Launch the Tally Connector website')
 
-            //        ]),
-            //     onPressed: () => _launchURL(),)
+              //        ]),
+              //     onPressed: () => _launchURL(),)
             ],
           ),
         ),
       ),
     );
-  }
-}
-
-
-_launchURL() async {
-  const url = 'https://restat.co/tallyassist/';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
   }
 }

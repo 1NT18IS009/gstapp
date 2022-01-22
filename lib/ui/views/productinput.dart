@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tassist/core/services/stockservice.dart';
 import 'package:tassist/theme/theme.dart';
@@ -193,10 +192,9 @@ class _ProductInputScreenState extends State<ProductInputScreen> {
                 padding: spacer.top.sm,
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width / 2.5,
-                child: RaisedButton(
+                child: ElevatedButton(
                     child: Text('+ Save Item',
                         style: secondaryListDisc.copyWith(color: TassistWhite)),
-                    color: TassistPrimaryDarkButtonShadow,
                     onPressed: () {
                       StockItemService(uid: uid).saveStockItem(
                         baseUnits: _baseUnits,

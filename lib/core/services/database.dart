@@ -3,8 +3,6 @@ import 'package:tassist/core/models/production.dart';
 import 'package:tassist/core/models/khata.dart';
 import 'package:tassist/core/models/salesvoucher.dart';
 
-
-
 class DatabaseService {
   final String uid;
   DatabaseService({this.uid});
@@ -34,10 +32,6 @@ class DatabaseService {
       'total_sales': 0,
     });
   }
-
-  // Stream<QuerySnapshot> get sales => metricCollection.snapshots();
-
-  // PRODUCTION
 
   // IDFix - use current user
   Future createProductionRecord(

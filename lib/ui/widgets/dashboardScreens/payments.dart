@@ -168,7 +168,7 @@ class PaymentsDashboardWidgetTitleRow extends StatelessWidget {
                         ),
                         elevation: 24.0,
                         actions: <Widget>[
-                          FlatButton(
+                          TextButton(
                               child: Text('Ok'),
                               onPressed: () => Navigator.of(context).pop())
                         ],

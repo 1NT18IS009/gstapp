@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:tassist/core/models/company.dart';
-import 'package:tassist/core/models/ledger.dart';
+import 'package:tassist/core/models/ledgerItem.dart';
 // import 'package:tassist/core/models/ledgervoucher.dart';
 import 'package:tassist/core/models/vouchers.dart';
 import 'package:tassist/templates/ledgeraccount_pdf_template.dart';
@@ -83,17 +84,18 @@ class LedgerSummary extends StatelessWidget {
                         Row(
                           children: <Widget>[
                             // PDF Sharing button
-                            RaisedButton(
+                            ElevatedButton(
                               child: Row(
                                 children: <Widget>[
-                                  Text('Send PDF', style: TextStyle(color: TassistMenuBg),),
-                                  // Icon(Icons.picture_as_pdf, color: TassistMenuBg), 
-
+                                  Text(
+                                    'Send PDF',
+                                    style: TextStyle(color: TassistMenuBg),
+                                  ),
+                                  // Icon(Icons.picture_as_pdf, color: TassistMenuBg),
                                 ],
                               ),
                               onPressed: () => viewPdf(
                                   context, voucherData, company, ledger),
-                              color: TassistBgLightPurple,
                             ),
                             SizedBox(
                               width: 10,
@@ -121,7 +123,8 @@ class LedgerSummary extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text('Receivables'),
-                          Text(formatIndianCurrency(ledger.totalReceivables.toString()))
+                          Text(formatIndianCurrency(
+                              ledger.totalReceivables.toString()))
                         ],
                       ),
                     ),
@@ -131,7 +134,8 @@ class LedgerSummary extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text('Payables'),
-                          Text(formatIndianCurrency(ledger.totalPayables.toString()))
+                          Text(formatIndianCurrency(
+                              ledger.totalPayables.toString()))
                         ],
                       ),
                     ),
@@ -163,27 +167,32 @@ class LedgerSummary extends StatelessWidget {
                 title: 'Sales',
                 number: 'Bills: ${ledger.numSalesVouchers}',
                 date: 'Last: ${_formatDate(ledger.lastSalesDate)}',
-                metric: 'Total: ${formatIndianCurrency(ledger.totalSales.toString())}',
-                average: 'Average: ${formatIndianCurrency(ledger.meanSales.toString())}'),
+                metric:
+                    'Total: ${formatIndianCurrency(ledger.totalSales.toString())}',
+                average:
+                    'Average: ${formatIndianCurrency(ledger.meanSales.toString())}'),
             LedgerMetric(
                 title: 'Receipts',
                 number: 'Bills: ${ledger.numReceiptVouchers}',
                 date: 'Last: ${_formatDate(ledger.lastReceiptDate)}',
-                metric: 'Total: ${formatIndianCurrency(ledger.totalReceipt.toString())}',
+                metric:
+                    'Total: ${formatIndianCurrency(ledger.totalReceipt.toString())}',
                 average:
                     'Average: ${formatIndianCurrency(ledger.meanReceipt.toString())}'),
             LedgerMetric(
                 title: 'Purchases',
                 number: 'Bills: ${ledger.numPurchaseVouchers}',
                 date: 'Last: ${_formatDate(ledger.lastPurchaseDate)}',
-                metric: 'Total: ${formatIndianCurrency(ledger.totalPurchase.toString())}',
+                metric:
+                    'Total: ${formatIndianCurrency(ledger.totalPurchase.toString())}',
                 average:
                     'Average: ${formatIndianCurrency(ledger.meanPurchase.toString())}'),
             LedgerMetric(
                 title: 'Payment',
                 number: 'Bills: ${ledger.numPaymentVouchers}',
                 date: 'Last: ${_formatDate(ledger.lastPaymentDate)}',
-                metric: 'Total: ${formatIndianCurrency(ledger.totalPayment.toString())}',
+                metric:
+                    'Total: ${formatIndianCurrency(ledger.totalPayment.toString())}',
                 average:
                     'Average: ${formatIndianCurrency(ledger.meanPayment.toString())}'),
           ]),
@@ -208,7 +217,6 @@ viewPdf(context, voucherData, company, ledger) async {
     List<String> tempList;
     String natureTransaction;
 
-    // TODO: what if amount is equal to 0?
     if (voucherData[i].amount > 0) {
       natureTransaction = 'Dr.';
     } else {
@@ -226,9 +234,8 @@ viewPdf(context, voucherData, company, ledger) async {
 
   final pdf = createLedgerPdf(
     companyName: company.formalName,
-    startDate: '01-04-2020', //TODO need to make this dynamic
-    endDate: DateFormat('dd-MM-yyyy')
-        .format(DateTime.now()), // TODO need to make this dynamic
+    startDate: '01-04-2020',
+    endDate: DateFormat('dd-MM-yyyy').format(DateTime.now()),
     partyName: ledger.name,
     ledgerList: ledgerList,
     openingBalance: ledger.openingBalance.toString(),
@@ -254,7 +261,8 @@ viewPdf(context, voucherData, company, ledger) async {
           'Statement_tallyassist.pdf': bytes1,
         },
         '*/*',
-        text: 'Please find your party statement. Thanks for doing business with us!');
+        text:
+            'Please find your party statement. Thanks for doing business with us!');
   } catch (e) {
     print('error: $e');
   }
@@ -274,8 +282,8 @@ class PdfViewerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PDFViewerScaffold(
-      path: path,
+    return Scaffold(
+      body: SfPdfViewer.asset(path),
     );
   }
 }

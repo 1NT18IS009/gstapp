@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 
@@ -20,22 +18,21 @@ createInvoicePdf({
   String logoPath,
 }) {
   final pdf = Document();
-
   Center logoImage;
-  if (logoPath != null) {
-    logoImage = Center(
-      child: Image(
-        PdfImage(
-          pdf.document,
-          image: File(logoPath).readAsBytesSync(),
-          width: 40,
-          height: 40,
-        ),
-      ),
-    );
-  } else {
-    logoImage = Center(child: SizedBox());
-  }
+  // if (logoPath != null) {
+  //   var pdfImage=new PdfImage(pdf.document,
+  //     image: File(logoPath).readAsBytesSync(),
+  //     width: 40,
+  //     height: 40,
+  //   );
+  //   logoImage = Center(
+  //     child: Image(
+  //        pdfImage,
+  //       ),
+  //     );
+  // } else {
+  //   logoImage = Center(child: SizedBox());
+  // }
 
   pdf.addPage(
     MultiPage(
@@ -51,8 +48,8 @@ createInvoicePdf({
             margin: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
             padding: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
             decoration: const BoxDecoration(
-                border:
-                    BoxBorder(bottom: true, width: 0.5, color: PdfColors.grey)),
+                border: Border(
+                    bottom: BorderSide(color: PdfColors.grey, width: 0.5))),
             child: Text('TallyAssist',
                 style: Theme.of(context)
                     .defaultTextStyle
@@ -79,10 +76,9 @@ createInvoicePdf({
           level: 0,
           child: Container(
             decoration: BoxDecoration(
-              border: BoxBorder(
-                bottom: true,
-                top: true,
-              ),
+              border: Border(
+                  top: BorderSide(color: PdfColors.grey, width: 5),
+                  bottom: BorderSide(color: PdfColors.grey, width: 5)),
             ),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,7 +153,7 @@ createInvoicePdf({
                     Text('Due Date:',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                        )) //TODO need to add due date from invoice
+                        ))
                   ],
                 )
               ],
@@ -198,19 +194,17 @@ createInvoicePdf({
                   Text('Company PAN:',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                      )), // TODO need to add
+                      )), //
                 ],
               ),
             ),
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  border: BoxBorder(
-                      top: true,
-                      left: true,
-                      right: true,
-                      bottom: true,
-                      color: PdfColors.grey400),
+                  border: Border.all(
+                    color: PdfColors.grey400,
+                    width: 5,
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -238,12 +232,10 @@ gridChild(String text1, String text2) {
     padding: const EdgeInsets.only(left: 2.0 * PdfPageFormat.mm),
     alignment: Alignment.centerLeft,
     decoration: BoxDecoration(
-      border: BoxBorder(
-          left: true,
-          right: true,
-          top: true,
-          bottom: true,
-          color: PdfColors.grey400),
+      border: Border.all(
+        color: PdfColors.grey400,
+        width: 5,
+      ),
     ),
     child: Column(
       children: <Widget>[

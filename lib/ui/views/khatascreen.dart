@@ -27,7 +27,8 @@ class KhataScreen extends StatelessWidget {
               padding: spacer.all.xs,
               child: KhataForm(),
             );
-          });
+          },
+          settings: null);
     }
 
     final GlobalKey<ScaffoldState> _drawerKey = new GlobalKey<ScaffoldState>();
@@ -35,9 +36,10 @@ class KhataScreen extends StatelessWidget {
     return StreamProvider<List<Khata>>.value(
       // IDFixTODO - pass current user to database service
       value: DatabaseService(uid: user.uid).khataData,
-      child: WillPopScope (
-              onWillPop: () async => false,
-              child: Scaffold(
+      initialData: [],
+      child: WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
           key: _drawerKey,
           drawer: tassistDrawer(context),
           appBar: headerNav(_drawerKey),

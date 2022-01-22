@@ -3,8 +3,6 @@ import 'package:intl/intl.dart';
 
 String formatNumber(dynamic inputNumber) {
   List<String> nullList = ['null', ''];
-  // , 'NA', 'NaN'];
-  // final formatter = new NumberFormat.decimalPattern();
   if (nullList.contains(inputNumber)) {
     return '';
   } else {
@@ -15,8 +13,6 @@ String formatNumber(dynamic inputNumber) {
 
 String formatIndianCurrency(dynamic inputNumber) {
   List<String> nullList = ['null', ''];
-  // , 'NA', 'NaN'];
-  // final formatter = new NumberFormat.decimalPattern();
   if (nullList.contains(inputNumber)) {
     return '';
   } else if (inputNumber.runtimeType.toString() == 'String') {

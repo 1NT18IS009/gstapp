@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:tassist/core/models/company.dart';
-import 'package:tassist/core/models/ledger.dart';
+import 'package:tassist/core/models/ledgerItem.dart';
 import 'package:tassist/core/models/voucher-item.dart';
 import 'package:tassist/core/models/vouchers.dart';
 import 'package:tassist/core/services/storageservice.dart';
@@ -16,7 +17,6 @@ import 'package:tassist/templates/invoice_pdf_template.dart';
 import 'package:tassist/ui/shared/drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tassist/theme/theme.dart';
-import 'package:tassist/theme/colors.dart';
 import 'package:tassist/ui/widgets/detailcard.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:tassist/core/services/voucher-item-service.dart';
@@ -40,7 +40,6 @@ class VoucherView extends StatelessWidget {
     final user = Provider.of<User>(context);
     final company = Provider.of<Company>(context);
 
-    // TODO: Replace usage of Voucher with LedgerVoucher
     Iterable<Voucher> voucherList =
         Provider.of<List<Voucher>>(context, listen: false)
                 .where((item) => item.masterid == voucherId) ??
@@ -61,11 +60,13 @@ class VoucherView extends StatelessWidget {
         StreamProvider<List<VoucherItem>>.value(
           value: VoucherItemService(uid: user?.uid, voucherId: voucherId)
               .voucherItemData,
+          initialData: [],
         ),
         // ledger entries
         StreamProvider<List<LedgerParty>>.value(
           value: LedgerPartyService(uid: user?.uid, voucherId: voucherId)
               .voucherLedgerData,
+          initialData: [],
         ),
       ],
       child: WillPopScope(
@@ -92,11 +93,12 @@ class VoucherView extends StatelessWidget {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Row(children: <Widget>[
-                              Text('Voucher #'),
-                            Text(voucher.number),
-                            ],),
-                            
+                            Row(
+                              children: <Widget>[
+                                Text('Voucher #'),
+                                Text(voucher.number),
+                              ],
+                            ),
                             Visibility(
                               visible: voucher.primaryVoucherType == "Sales",
                               child: InvoiceButton(
@@ -199,15 +201,13 @@ class InvoiceButton extends StatelessWidget {
     String uid = Provider.of<User>(context).uid;
 
     return // PDF Sharing button
-        RaisedButton(
-          color: TassistMenuBg,
-            child: Row(children: <Widget>[
-              Text('Send PDF  ', style: TextStyle(color: TassistWhite)),
-              Icon(Icons.picture_as_pdf, color: TassistWhite),
-
-            ],),
-            
-            
+        ElevatedButton(
+            child: Row(
+              children: <Widget>[
+                Text('Send PDF  ', style: TextStyle(color: TassistWhite)),
+                Icon(Icons.picture_as_pdf, color: TassistWhite),
+              ],
+            ),
             onPressed: () async {
               String logoPath;
               if (company.hasLogo == '1') {
@@ -381,8 +381,7 @@ _createInvoiceItemList(voucher, inventoryEntries) {
     itemList.add(["", "Tax", "", "", "", "", taxAmount]);
   }
 
-  itemList
-      .add(["", "Total", "", "", "", "", voucher.amount.toString()]);
+  itemList.add(["", "Total", "", "", "", "", voucher.amount.toString()]);
 
   return itemList;
 }
@@ -444,8 +443,8 @@ class PdfViewerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PDFViewerScaffold(
-      path: path,
+    return Scaffold(
+      body: SfPdfViewer.asset(path),
     );
   }
 }

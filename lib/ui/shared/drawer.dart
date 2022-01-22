@@ -13,9 +13,6 @@ import 'package:tassist/ui/views/ledgerinput.dart';
 import 'package:tassist/ui/views/khatascreen.dart';
 import 'package:tassist/ui/views/ledgerscreen.dart';
 import 'package:tassist/ui/views/settingsscreen.dart';
-// import 'package:tassist/ui/views/productionInput.dart';
-// import 'package:tassist/ui/views/pruchaseorderreport.dart';
-// import 'package:tassist/ui/views/salesorderreport.dart';
 import 'package:tassist/ui/views/stockscreen.dart';
 import 'package:tassist/ui/views/vouchers.dart';
 // import 'package:url_launcher/url_launcher.dart';
@@ -34,21 +31,18 @@ Drawer tassistDrawer(BuildContext context) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-          
-             
             CircleAvatar(
-                child: Icon(
-                  Icons.person_outline,
-                  color: TassistInfoGrey,
-                  size: 40.0,
-                ),
-                radius: 25.0,
-                backgroundColor: TassistWhite,
+              child: Icon(
+                Icons.person_outline,
+                color: TassistInfoGrey,
+                size: 40.0,
               ),
-            SizedBox(width: 70,),
-            
-            
-           
+              radius: 25.0,
+              backgroundColor: TassistWhite,
+            ),
+            SizedBox(
+              width: 70,
+            ),
             FittedBox(
               child: Text(
                 user?.email ?? 'No email',
@@ -58,17 +52,6 @@ Drawer tassistDrawer(BuildContext context) {
                     ),
               ),
             ),
-
-                //  RaisedButton( 
-                //    color: TassistWhite,
-                //    child:
-                //    Row(children: <Widget>[
-                //   Icon(FontAwesomeIcons.laptop),
-                //   SizedBox(width: 20),
-                //   Text('Get Tally Connector')
-
-                //    ]),
-                // onPressed: () => _launchURL(),)
           ],
         ),
         decoration: BoxDecoration(
@@ -86,7 +69,6 @@ Drawer tassistDrawer(BuildContext context) {
         ontap: HomeDashboardScreen(),
         color: TassistPrimaryBackground,
       ),
-      
       DrawerItem(
         icon: FontAwesomeIcons.listAlt,
         title: 'Ledgers / Parties',
@@ -117,13 +99,12 @@ Drawer tassistDrawer(BuildContext context) {
         ontap: VouchersHome(),
         color: TassistPrimaryBackground,
       ),
-       DrawerItem(
+      DrawerItem(
         icon: Icons.receipt,
         title: 'Make New Invoice',
         ontap: LedgerInputScreen(),
         color: TassistPrimary,
       ),
-      
       Padding(
         padding: spacer.all.xxs,
         child: Text('Specials', style: Theme.of(context).textTheme.bodyText1),
@@ -159,7 +140,10 @@ Drawer tassistDrawer(BuildContext context) {
               Text(
                 'Sign Out',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 16 ),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    .copyWith(fontSize: 16),
               ),
             ],
           ),
@@ -224,14 +208,4 @@ class _DrawerItemState extends State<DrawerItem> {
       },
     );
   }
-}
-
-
-_launchURL() async {
-  const url = '';
-  // if (await canLaunch(url)) {
-  //   await launch(url);
-  // } else {
-    throw 'Could not launch $url';
-  // }
 }

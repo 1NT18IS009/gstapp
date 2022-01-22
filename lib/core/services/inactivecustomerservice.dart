@@ -33,23 +33,8 @@ class InactiveCustomerService {
         email: doc['email'].toString() ?? '',
         phone: doc['phone'].toString() ?? '',
         guid: doc['guid'].toString() ?? '',
-        // lastPaymentDate: doc['restat_last_payment_date'].toString() ?? '',
-        // lastPurchaseDate:
-        //     doc['restat_last_purchase_date'].toString() ?? '',
-        // lastReceiptDate: doc['restat_last_receipt_date'].toString() ?? '',
-        // lastSalesDate: doc['restat_last_sales_date'].toString() ?? '',
-        // meanPayment: doc['restat_mean_payment'].toString() ?? '',
-        // meanPurchase: doc['restat_mean_purchase'].toString() ?? '',
-        // meanReceipt: doc['restat_mean_receipt'].toString() ?? '',
-        // meanSales: doc['restat_mean_sales'].toString() ?? '',
         partyGuid: doc['guid'].toString() ?? '',
-        // totalPayables: doc['restat_total_payables'].toString() ?? '',
-        // totalPayment: doc['restat_total_payment'].toString() ?? '',
-        // totalPurchase: doc['restat_total_purchase'].toString() ?? '',
-        // totalReceipt: doc['restat_total_receipt'].toString() ?? '',
-        // totalReceivables: doc['restat_total_receivables'].toString() ?? '',
-        primaryGroupType:
-            doc['restat_primary_group_type'].toString() ?? '',
+        primaryGroupType: doc['restat_primary_group_type'].toString() ?? '',
       );
     }).toList();
   }

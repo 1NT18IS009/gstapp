@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tassist/core/models/ledger.dart';
+import 'package:tassist/core/models/ledgerItem.dart';
 import 'package:intl/intl.dart';
 import 'package:tassist/ui/widgets/childdetailcard.dart';
 import 'package:tassist/ui/widgets/detailcard.dart';

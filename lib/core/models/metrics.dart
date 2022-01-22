@@ -1,6 +1,4 @@
-
 class Metrics {
-
   final String totalSales;
   final String totalPurchases;
 

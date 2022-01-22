@@ -13,7 +13,7 @@ class LedgerStockService {
   Stream<List<LedgerStock>> get ledgerStockData {
     return companyCollection
         .doc(this.uid)
-        .collection('ledger')
+        .collection('ledgeritem')
         .doc(this.ledgerId)
         .collection('ledger_stock_metrics')
         .snapshots()

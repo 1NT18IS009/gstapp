@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tassist/core/models/ledger.dart';
+import 'package:tassist/core/models/ledgerItem.dart';
 import 'package:tassist/theme/colors.dart';
 import 'package:tassist/theme/dimensions.dart';
 import 'package:tassist/ui/views/ledgerview.dart';
@@ -133,7 +133,7 @@ class LedgerCard extends StatelessWidget {
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
                             actions: <Widget>[
-                              FlatButton(
+                              TextButton(
                                   onPressed: () => Navigator.of(context).pop(),
                                   child: Text(
                                     "I'll wait :)",
@@ -189,7 +189,7 @@ class LedgerCard extends StatelessWidget {
           //     ],
           //   ),
           // ),
-          FlatButton(
+          TextButton(
               onPressed: () {
                 var partyname = ledgerItem.name;
                 var ledgerGuid = ledgerItem.guid;

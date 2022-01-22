@@ -34,7 +34,7 @@ class _SignInPhoneState extends State<SignInPhone> {
                 .headline6
                 .copyWith(color: TassistWhite)),
         actions: <Widget>[
-          FlatButton.icon(
+          TextButton.icon(
             icon: Icon(
               Icons.person,
               color: TassistWhite,
@@ -68,9 +68,7 @@ class _SignInPhoneState extends State<SignInPhone> {
                 },
               ),
               SizedBox(height: 20.0),
-              RaisedButton(
-                  color: TassistPrimaryBackground,
-                  elevation: 20.0,
+              ElevatedButton(
                   child: Text(
                     'Sign In',
                     style: TextStyle(color: Colors.white),

@@ -54,7 +54,8 @@ createLedgerPdf({
           padding: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
           decoration: const BoxDecoration(
               border:
-                  BoxBorder(bottom: true, width: 0.5, color: PdfColors.grey)),
+              Border(
+                  bottom: BorderSide(color: PdfColors.grey, width: 0.5))),
           child: Column(
             children: <Widget>[
               Container(

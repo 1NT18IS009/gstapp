@@ -12,7 +12,7 @@ class ReceivablesItemService {
   Stream<List<ReceivablesItem>> get accountsReceivableData {
     return companyCollection
         .doc(this.uid)
-        .collection('ledger')
+        .collection('ledgeritem')
         .where('restat_primary_group_type',
             whereIn: ['Sundry Debtors', 'Sundry Creditors'])
         .where('closing_balance', isLessThan: 0)

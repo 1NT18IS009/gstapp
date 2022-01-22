@@ -25,11 +25,30 @@ class ReceivablesItem {
   final String totalReceipt;
   final String totalReceivables;
 
-
-  ReceivablesItem({this.name, this.masterId, this.currencyName, this.openingBalance, this.closingBalance,  
-              this.parentid, this.contact, this.state, this.email, this.phone, this.guid,
-              this.lastPaymentDate, this.lastPurchaseDate, this.lastReceiptDate,
-              this.lastSalesDate, this.meanPayment, this.meanPurchase, this.meanReceipt,
-              this.meanSales, this.partyGuid, this.totalPayables, this.totalPayment,
-              this.totalPurchase, this.totalReceipt, this.totalReceivables});
-              }
+  ReceivablesItem(
+      {this.name,
+      this.masterId,
+      this.currencyName,
+      this.openingBalance,
+      this.closingBalance,
+      this.parentid,
+      this.contact,
+      this.state,
+      this.email,
+      this.phone,
+      this.guid,
+      this.lastPaymentDate,
+      this.lastPurchaseDate,
+      this.lastReceiptDate,
+      this.lastSalesDate,
+      this.meanPayment,
+      this.meanPurchase,
+      this.meanReceipt,
+      this.meanSales,
+      this.partyGuid,
+      this.totalPayables,
+      this.totalPayment,
+      this.totalPurchase,
+      this.totalReceipt,
+      this.totalReceivables});
+}

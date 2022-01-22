@@ -16,103 +16,106 @@ import 'package:tassist/ui/widgets/sectionHeader.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tassist/theme/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:tassist/core/models/ledger.dart';
+import 'package:tassist/core/models/ledgerItem.dart';
 import 'package:tassist/core/services/string_format.dart';
-
 
 class PurchaseOrderReportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-        final GlobalKey<ScaffoldState> _drawerKey = new GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> _drawerKey = new GlobalKey<ScaffoldState>();
 
-    
-    return  MultiProvider(
-      providers: [
-        StreamProvider<DocumentSnapshot>.value(value: DatabaseService(uid: user?.uid).metricCollection.doc(user.uid).snapshots()),
+    return MultiProvider(
+        providers: [
+          StreamProvider<DocumentSnapshot>.value(
+            value: DatabaseService(uid: user?.uid)
+                .metricCollection
+                .doc(user.uid)
+                .snapshots(),
+            initialData: null,
+          ),
         ],
-  
+        child: WillPopScope(
+          onWillPop: () async => false,
+          child: Scaffold(
+            key: _drawerKey,
+            drawer: tassistDrawer(context),
+            appBar: headerNav(_drawerKey),
+            // bottomNavigationBar: bottomNav(),
+            body: ListView(
+              children: <Widget>[
+                SectionHeader('Purchases'),
+                // Container(
 
-      child:  WillPopScope (
-              onWillPop: () async => false,
-              child: Scaffold(
-          key: _drawerKey,
-          drawer: tassistDrawer(context),
-        appBar: headerNav(_drawerKey),
-        // bottomNavigationBar: bottomNav(),
-        body: ListView(
-          children: <Widget>[
-            SectionHeader('Purchases'),
-            // Container(
-             
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: <Widget>[
-            //       Expanded(
-            //         child: Container(
-            //           padding: spacer.x.xs,
-            //           margin: spacer.all.xxs,
-            //           color: Color(0xffEDF4FC),
-            //           child: Row(
-            //             children: <Widget>[
-            //               Text('Product'),
-            //               Icon(Icons.arrow_drop_down, color: Colors.purple[800]),
-            //             ],
-            //           ),
-            //         ),
-            //       ),
-            //       Expanded(
-            //         child: Container(
-            //           padding: spacer.x.xs,
-            //            margin: spacer.all.xxs,
-            //           color: Color(0xffEDF4FC),
-            //           child: Row(
-            //             children: <Widget>[
-            //               Text('Customer'),
-            //               Icon(Icons.arrow_drop_down, color: Colors.purple[800]),
-            //             ],
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-           Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      ColoredIconNumberRow('total_purchases', 'Total Purchases'),
-                      ColoredIconNumberRow('num_purchase_vouchers', '# Vouchers'),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      ColoredIconNumberRow('total_payments', 'Total Payments'),
-                      ColoredIconNumberRow('num_payments_vouchers', '# Vouchers'),
-                    ],
-                  )
-                ],
-              ),
-            
-            SecondarySectionHeader('Inactive Supplier List'),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: <Widget>[
+                //       Expanded(
+                //         child: Container(
+                //           padding: spacer.x.xs,
+                //           margin: spacer.all.xxs,
+                //           color: Color(0xffEDF4FC),
+                //           child: Row(
+                //             children: <Widget>[
+                //               Text('Product'),
+                //               Icon(Icons.arrow_drop_down, color: Colors.purple[800]),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //       Expanded(
+                //         child: Container(
+                //           padding: spacer.x.xs,
+                //            margin: spacer.all.xxs,
+                //           color: Color(0xffEDF4FC),
+                //           child: Row(
+                //             children: <Widget>[
+                //               Text('Customer'),
+                //               Icon(Icons.arrow_drop_down, color: Colors.purple[800]),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        ColoredIconNumberRow(
+                            'total_purchases', 'Total Purchases'),
+                        ColoredIconNumberRow(
+                            'num_purchase_vouchers', '# Vouchers'),
+                      ],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        ColoredIconNumberRow(
+                            'total_payments', 'Total Payments'),
+                        ColoredIconNumberRow(
+                            'num_payments_vouchers', '# Vouchers'),
+                      ],
+                    )
+                  ],
+                ),
 
-            InactiveSupplierList(),
+                SecondarySectionHeader('Inactive Supplier List'),
 
-            GoToBar('Top Suppliers', LedgerScreen()),
-            GoToBar('Top Items Due', StockScreen()),
-            GoToBar('Top Accounts Payable', AccountsPayableScreen())       
-          ],
-        ),
-    ),
-      )
-    );
+                InactiveSupplierList(),
+
+                GoToBar('Top Suppliers', LedgerScreen()),
+                GoToBar('Top Items Due', StockScreen()),
+                GoToBar('Top Accounts Payable', AccountsPayableScreen())
+              ],
+            ),
+          ),
+        ));
   }
 }
 
-
 class InactiveSupplierList extends StatefulWidget {
-
   final LedgerItem ledgerItem;
 
   InactiveSupplierList({this.ledgerItem});
@@ -124,14 +127,17 @@ class InactiveSupplierList extends StatefulWidget {
 class _InactiveSupplierListState extends State<InactiveSupplierList> {
   Iterable<LedgerItem> inactiveSuppliers;
 
-   List<LedgerItem> inactiveSupplierData = List<LedgerItem> ();
+  // ignore: deprecated_member_use
+  List<LedgerItem> inactiveSupplierData = List<LedgerItem>();
 
   @override
   Widget build(BuildContext context) {
-
-  final inactiveSuppliers = Provider.of<List<LedgerItem>>(context).where((element) => element.closingBalance == 0).where((element) => element.primaryGroupType == 'Sundry Creditors') ?? [];
+    final inactiveSuppliers = Provider.of<List<LedgerItem>>(context)
+            .where((element) => element.closingBalance == 0)
+            .where(
+                (element) => element.primaryGroupType == 'Sundry Creditors') ??
+        [];
     inactiveSupplierData.addAll(inactiveSuppliers);
-    
 
     return Container(
         height: MediaQuery.of(context).size.height / 1.1,
@@ -139,27 +145,41 @@ class _InactiveSupplierListState extends State<InactiveSupplierList> {
           children: <Widget>[
             Padding(
               padding: spacer.all.xxs,
-              child: Text('Total Inactive Suppliers: ${inactiveSupplierData?.length}', style: Theme.of(context).textTheme.bodyText1.copyWith(fontWeight: FontWeight.normal),),
+              child: Text(
+                'Total Inactive Suppliers: ${inactiveSupplierData?.length}',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(fontWeight: FontWeight.normal),
+              ),
             ),
-             Padding(
-                  padding: spacer.all.xxs,
-                  child:   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text('Party Name    ', style: TextStyle(color: TassistPrimary, fontWeight: FontWeight.bold),),
-                // Text( 'Op Balance  ', style: TextStyle(color: TassistInfoGrey, fontWeight: FontWeight.bold),),
-                Text ('Difference', style: TextStyle(color: TassistBlack, fontWeight: FontWeight.bold ),),
-                Icon(Icons.phone)
-              ]
+            Padding(
+              padding: spacer.all.xxs,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Party Name    ',
+                      style: TextStyle(
+                          color: TassistPrimary, fontWeight: FontWeight.bold),
+                    ),
+                    // Text( 'Op Balance  ', style: TextStyle(color: TassistInfoGrey, fontWeight: FontWeight.bold),),
+                    Text(
+                      'Difference',
+                      style: TextStyle(
+                          color: TassistBlack, fontWeight: FontWeight.bold),
+                    ),
+                    Icon(Icons.phone)
+                  ]),
             ),
-                ),
             Expanded(
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: inactiveSupplierData?.length ?? 0,
                 itemBuilder: (context, index) {
-                  return LedgerItemTile(ledgerItem: inactiveSupplierData[index]);
+                  return LedgerItemTile(
+                      ledgerItem: inactiveSupplierData[index]);
                 },
               ),
             ),
@@ -168,62 +188,63 @@ class _InactiveSupplierListState extends State<InactiveSupplierList> {
   }
 }
 
-
 class LedgerItemTile extends StatelessWidget {
-
   final LedgerItem ledgerItem;
-  
+
   LedgerItemTile({this.ledgerItem});
 
- @override
+  @override
   Widget build(BuildContext context) {
+    _launchURL() async {
+      var url = 'https://api.whatsapp.com/send?phone=${ledgerItem.phone}';
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
 
-_launchURL() async {
-  var url = 'https://api.whatsapp.com/send?phone=${ledgerItem.phone}';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
-
-
-    return 
-    FittedBox(
-          child: Card(
-            borderOnForeground: true,
-                      child: Row(
-        children: <Widget>[
-        
-            SizedBox(width: 5,),
+    return FittedBox(
+      child: Card(
+        borderOnForeground: true,
+        child: Row(
+          children: <Widget>[
+            SizedBox(
+              width: 5,
+            ),
             Container(
               width: MediaQuery.of(context).size.width / 2.5,
-              child: Text(ledgerItem.name,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodyText2.copyWith(
-                fontSize: 14,
-                color: TassistPrimaryBackground
-              ),
+              child: Text(
+                ledgerItem.name,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2
+                    .copyWith(fontSize: 14, color: TassistPrimaryBackground),
               ),
             ),
-            SizedBox(width: 5,),
+            SizedBox(
+              width: 5,
+            ),
             // Text(formatIndianCurrency(ledgerItem.openingBalance), style: TextStyle(color: TassistInfoGrey)),
-            SizedBox(width: 10,),
-    
-               Text(formatIndianCurrency(ledgerItem.totalPayables)),
-              IconButton(
-                onPressed: () {
-                  _launchURL();
-                },
-                icon: Icon(FontAwesomeIcons.whatsapp, color: TassistSuccess,),
-              )
-        ],
-            
+            SizedBox(
+              width: 10,
+            ),
+
+            Text(formatIndianCurrency(ledgerItem.totalPayables)),
+            IconButton(
+              onPressed: () {
+                _launchURL();
+              },
+              icon: Icon(
+                FontAwesomeIcons.whatsapp,
+                color: TassistSuccess,
+              ),
+            )
+          ],
+        ),
       ),
-          ),
     );
   }
-
-}  
-
+}

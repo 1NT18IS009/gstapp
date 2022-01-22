@@ -3,7 +3,6 @@ import 'package:tassist/core/services/auth.dart';
 import 'package:tassist/theme/colors.dart';
 import 'package:tassist/ui/root_page.dart';
 
-
 class Register extends StatefulWidget {
   final Function toggleView;
   Register({this.toggleView});
@@ -33,11 +32,18 @@ class _RegisterState extends State<Register> {
         elevation: 0.0,
         title: Text('Sign up'),
         actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person, color: TassistWhite,),
-            label: Text('Sign In', style: Theme.of(context).textTheme.bodyText1.copyWith(
-              color: TassistWhite
-            ),),
+          TextButton.icon(
+            icon: Icon(
+              Icons.person,
+              color: TassistWhite,
+            ),
+            label: Text(
+              'Sign In',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(color: TassistWhite),
+            ),
             onPressed: () => widget.toggleView(),
           ),
         ],
@@ -52,11 +58,10 @@ class _RegisterState extends State<Register> {
               TextFormField(
                 style: Theme.of(context).textTheme.bodyText2,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.email, color: TassistPrimaryBackground),
-                  hintText: 'Enter your email ID please',
-                  hintStyle: Theme.of(context).textTheme.bodyText2,
-                  labelText: 'Email'
-                ),
+                    icon: Icon(Icons.email, color: TassistPrimaryBackground),
+                    hintText: 'Enter your email ID please',
+                    hintStyle: Theme.of(context).textTheme.bodyText2,
+                    labelText: 'Email'),
                 validator: (val) => val.isEmpty ? 'Enter an email' : null,
                 onChanged: (val) {
                   setState(() => email = val);
@@ -66,11 +71,10 @@ class _RegisterState extends State<Register> {
               TextFormField(
                 style: Theme.of(context).textTheme.bodyText2,
                 decoration: InputDecoration(
-                   icon: Icon(Icons.vpn_key, color: TassistPrimaryBackground),
-                  hintText: 'Enter your password please',
-                  hintStyle: Theme.of(context).textTheme.bodyText2,
-                  labelText: 'Password'
-                ),
+                    icon: Icon(Icons.vpn_key, color: TassistPrimaryBackground),
+                    hintText: 'Enter your password please',
+                    hintStyle: Theme.of(context).textTheme.bodyText2,
+                    labelText: 'Password'),
                 obscureText: true,
                 validator: (val) =>
                     val.length < 6 ? 'Enter a password 6+ chars long' : null,
@@ -96,11 +100,8 @@ class _RegisterState extends State<Register> {
               // ),
 
               // SizedBox(height: 20.0),
-             
-        
-              RaisedButton(
-                  color: TassistPrimary,
-                  elevation: 10.0,
+
+              ElevatedButton(
                   child: Text(
                     'Register',
                     style: TextStyle(color: TassistWhite),
@@ -115,8 +116,7 @@ class _RegisterState extends State<Register> {
                           loading = false;
                           error = 'Please supply a valid email';
                         });
-                      }
-                      else {
+                      } else {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
                             builder: (context) => RootPage(),

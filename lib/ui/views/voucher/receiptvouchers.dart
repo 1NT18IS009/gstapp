@@ -48,6 +48,7 @@ class _ReceiptVoucherListState extends State<ReceiptVoucherList> {
   TextEditingController editingController = TextEditingController();
 
   Iterable<Voucher> receiptVoucherData;
+  // ignore: deprecated_member_use
   List<Voucher> receiptVoucherDataforDisplay = List<Voucher>();
 
   @override
@@ -62,9 +63,11 @@ class _ReceiptVoucherListState extends State<ReceiptVoucherList> {
   }
 
   void filterSearchResults(String query) {
+    // ignore: deprecated_member_use
     List<Voucher> dummySearchList = List<Voucher>();
     dummySearchList.addAll(receiptVoucherData);
     if (query.isNotEmpty) {
+      // ignore: deprecated_member_use
       List<Voucher> dummyListData = List<Voucher>();
       dummySearchList.forEach((item) {
         if (item.partyname.toLowerCase().contains(query)) {
