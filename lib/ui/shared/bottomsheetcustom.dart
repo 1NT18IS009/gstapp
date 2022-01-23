@@ -7,39 +7,7 @@ const Duration _kBottomSheetDuration = Duration(milliseconds: 200);
 const double _kMinFlingVelocity = 700.0;
 const double _kCloseProgressThreshold = 0.5;
 
-/// A material design bottom sheet.
-///
-/// There are two kinds of bottom sheets in material design:
-///
-///  * _Persistent_. A persistent bottom sheet shows information that
-///    supplements the primary content of the app. A persistent bottom sheet
-///    remains visible even when the user interacts with other parts of the app.
-///    Persistent bottom sheets can be created and displayed with the
-///    [ScaffoldState.showBottomSheet] function or by specifying the
-///    [Scaffold.bottomSheet] constructor parameter.
-///
-///  * _Modal_. A modal bottom sheet is an alternative to a menu or a dialog and
-///    prevents the user from interacting with the rest of the app. Modal bottom
-///    sheets can be created and displayed with the [showModalBottomSheet]
-///    function.
-///
-/// The [BottomSheet] widget itself is rarely used directly. Instead, prefer to
-/// create a persistent bottom sheet with [ScaffoldState.showBottomSheet] or
-/// [Scaffold.bottomSheet], and a modal bottom sheet with [showModalBottomSheet].
-///
-/// See also:
-///
-///  * [showBottomSheet] and [ScaffoldState.showBottomSheet], for showing
-///    non-modal "persistent" bottom sheets.
-///  * [showModalBottomSheet], which can be used to display a modal bottom
-///    sheet.
-///  * <https://material.io/design/components/sheets-bottom.html>
 class BottomSheet extends StatefulWidget {
-  /// Creates a bottom sheet.
-  ///
-  /// Typically, bottom sheets are created implicitly by
-  /// [ScaffoldState.showBottomSheet], for persistent bottom sheets, or by
-  /// [showModalBottomSheet], for modal bottom sheets.
   const BottomSheet({
     @required Key key,
     @required this.animationController,
@@ -47,38 +15,20 @@ class BottomSheet extends StatefulWidget {
     this.elevation = 0.0,
     @required this.onClosing,
     @required this.builder,
-  });
+  })  : assert(enableDrag != null),
+        assert(onClosing != null),
+        assert(builder != null),
+        assert(elevation != null && elevation >= 0.0),
+        super(key: key);
 
-  /// The animation that controls the bottom sheet's position.
-  ///
-  /// The BottomSheet widget will manipulate the position of this animation, it
-  /// is not just a passive observer.
   final AnimationController animationController;
 
-  /// Called when the bottom sheet begins to close.
-  ///
-  /// A bottom sheet might be prevented from closing (e.g., by user
-  /// interaction) even after this callback is called. For this reason, this
-  /// callback might be call multiple times for a given bottom sheet.
   final VoidCallback onClosing;
 
-  /// A builder for the contents of the sheet.
-  ///
-  /// The bottom sheet will wrap the widget produced by this builder in a
-  /// [Material] widget.
   final WidgetBuilder builder;
 
-  /// If true, the bottom sheet can dragged up and down and dismissed by swiping
-  /// downwards.
-  ///
-  /// Default is true.
   final bool enableDrag;
 
-  /// The z-coordinate at which to place this material relative to its parent.
-  ///
-  /// This controls the size of the shadow below the material.
-  ///
-  /// Defaults to 0. The value is non-negative.
   final double elevation;
 
   @override
@@ -296,6 +246,9 @@ Future<T> showModalBottomSheetCustom<T>({
   @required WidgetBuilder builder,
   @required RouteSettings settings,
 }) {
+  assert(context != null);
+  assert(builder != null);
+  assert(settings != null);
   assert(debugCheckHasMaterialLocalizations(context));
   return Navigator.push(
       context,
@@ -312,5 +265,7 @@ PersistentBottomSheetController<T> showBottomSheet<T>({
   @required BuildContext context,
   @required WidgetBuilder builder,
 }) {
+  assert(context != null);
+  assert(builder != null);
   return Scaffold.of(context).showBottomSheet<T>(builder);
 }

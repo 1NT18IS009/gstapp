@@ -12,7 +12,7 @@ class InactiveCustomerService {
   Stream<List<InactiveCustomer>> get inactiveCustomerData {
     return companyCollection
         .doc(this.uid)
-        .collection('ledger')
+        .collection('ledgeritem')
         .where('closingbalance', isEqualTo: 0)
         .where('restat_primary_group_type', isEqualTo: 'Sundry Debtors')
         .snapshots()

@@ -9,6 +9,7 @@ class StockScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // final user = Provider.of<FirebaseUser>(context);
     final GlobalKey<ScaffoldState> _drawerKey = new GlobalKey<ScaffoldState>();
+    print(_drawerKey);
     return Scaffold(
       key: _drawerKey,
       drawer: tassistDrawer(context),

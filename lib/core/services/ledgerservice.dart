@@ -45,7 +45,7 @@ class LedgerItemService {
         .map(_ledgerItemData);
   }
 
-  Future saveLedger({masterId, name, phone, gst, partyType}) async {
+  Future saveLedgerItem({masterId, name, phone, gst, partyType}) async {
     return await companyCollection
         .doc(this.uid)
         .collection('ledgeritem')
@@ -59,6 +59,8 @@ class LedgerItemService {
   }
 
   List<LedgerItem> _ledgerItemData(QuerySnapshot snapshot) {
+    print("ledgerItems\n");
+    print(snapshot.docs.toString());
     return snapshot.docs.map((doc) {
       return LedgerItem(
         name: doc['name'].toString() ?? '',

@@ -21,6 +21,7 @@ import 'package:tassist/ui/views/settingsscreen.dart';
 import 'package:tassist/ui/views/stockscreen.dart';
 import 'package:tassist/ui/views/vouchers.dart';
 import 'package:tassist/core/services/string_format.dart';
+
 var formatter = new DateFormat('dd-MM-yyyy');
 
 _formatDate(DateTime date) {
@@ -65,6 +66,7 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
               body: SafeArea(
                 child: ListView(
                   children: <Widget>[
+                    //StatusBar(),
                     // tallyconnection(tallyconnected),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),

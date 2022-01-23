@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
@@ -54,14 +56,12 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
 
   DateTime _invoiceDateRaw = DateTime.now();
   String _currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
-  String _dueDate = DateFormat('dd-MM-yyyy')
-      .format(DateTime.now().add(new Duration(days: 30)));
   bool isCashSwitched = true;
   //      final List<String> discountPerCent = ['5','10', '15', '20'];
 
   // String _currentDiscount;
   DateTime currentDate = DateTime.now();
-  DateTime currentDueDate = DateTime.now();
+  DateTime currentDueDate = DateTime.now().add(new Duration(days: 30));
   Future<void> _selectDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
         context: context,
@@ -101,8 +101,12 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
   @override
   Widget build(BuildContext context) {
     var uid = Provider.of<User>(context).uid;
-    var ledgerList = Provider.of<List<LedgerItem>>(context, listen: false);
+    var ledgerList = Provider.of<List<LedgerItem>>(context);
+    print("hello ledger list");
+    print(ledgerList);
+    print("\nstocklist");
     var stockList = Provider.of<List<StockItem>>(context, listen: false);
+    print(stockList);
     var company = Provider.of<Company>(context);
 
     return WillPopScope(
@@ -532,7 +536,7 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                 Flexible(
                   child: ButtonTheme(
                     minWidth: MediaQuery.of(context).size.width / 2,
-                    child: ElevatedButton(
+                    child: RaisedButton(
                       onPressed: () async {
                         String logoPath;
                         if (company.hasLogo == '1') {
@@ -549,7 +553,7 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                           company: company,
                           context: context,
                           invoiceDate: _currentDate,
-                          ledger: _customerLedger,
+                          ledgeritem: _customerLedger,
                           inventoryEntries: _inventoryEntries,
                           totalAmount: (_totalProductPrice + _totalTax),
                           invoiceNumber: _invoiceNumber,
@@ -560,6 +564,9 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                       child: Text('Preview',
                           style: TextStyle(
                               fontSize: 20, fontFamily: 'Proxima-Nova')),
+                      color: TassistInfoGrey,
+                      textColor: Colors.white,
+                      elevation: 5,
                     ),
                   ),
                 ),
@@ -567,7 +574,7 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                 Flexible(
                   child: ButtonTheme(
                     minWidth: MediaQuery.of(context).size.width / 2,
-                    child: ElevatedButton(
+                    child: RaisedButton(
                       onPressed: () async {
                         await VoucherService(uid: uid).saveVoucherRecord(
                           amount: (_totalProductPrice + _totalTax),
@@ -615,7 +622,7 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                           company: company,
                           context: context,
                           invoiceDate: _currentDate,
-                          ledger: _customerLedger,
+                          ledgeritem: _customerLedger,
                           inventoryEntries: _inventoryEntries,
                           totalAmount: (_totalProductPrice + _totalTax),
                           invoiceNumber: _invoiceNumber,
@@ -626,6 +633,9 @@ class _LedgerInputScreenState extends State<LedgerInputScreen> {
                       child: Text('Send',
                           style: TextStyle(
                               fontSize: 20, fontFamily: 'Proxima-Nova`')),
+                      color: TassistPrimary,
+                      textColor: Colors.white,
+                      elevation: 5,
                     ),
                   ),
                 ),
@@ -638,7 +648,7 @@ viewPdf(
     {context,
     inventoryEntries,
     company,
-    ledger,
+    ledgeritem,
     invoiceDate,
     totalAmount,
     invoiceNumber,
@@ -652,14 +662,14 @@ viewPdf(
   final pdf = createInvoicePdf(
     invoiceNumber: invoiceNumber,
     invoiceDate: invoiceDate,
-    companyName: company.formalName,
-    companyAddress: company.address,
-    companyPincode: company.pincode,
-    partyName: ledger.name ?? '',
-    partyAddress: ledger.address ?? '',
-    partyPincode: ledger.pincode,
-    partyState: ledger.state,
-    partyGST: ledger.gst ?? '',
+    companyName: company?.formalName,
+    companyAddress: company?.address,
+    companyPincode: company?.pincode,
+    partyName: ledgeritem?.name ?? '',
+    partyAddress: ledgeritem?.address ?? '',
+    partyPincode: ledgeritem?.pincode,
+    partyState: ledgeritem?.state,
+    partyGST: ledgeritem?.gst ?? '',
     itemList: itemList,
     logoPath: logoPath,
   );

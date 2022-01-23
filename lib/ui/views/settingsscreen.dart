@@ -29,11 +29,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _phoneNumber;
   String _gstNumber;
   String _registeredAddress;
-
   Future<void> _pickImage(ImageSource source) async {
-    File selected = (await ImagePicker().pickImage(source: source)) as File;
+    // ignore: deprecated_member_use
+    final selected = await ImagePicker().getImage(source: source);
     setState(() {
-      _imageFile = selected;
+      _imageFile = File(selected.path);
     });
   }
 

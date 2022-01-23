@@ -20,6 +20,8 @@ class _LedgerItemListState extends State<LedgerItemList> {
   @override
   void initState() {
     ledgerItemData = Provider.of<List<LedgerItem>>(context, listen: false);
+    print("ledger item list k andar");
+    print(ledgerItemData);
     ledgerItemDataforDisplay.addAll(ledgerItemData);
 
     super.initState();
@@ -32,6 +34,8 @@ class _LedgerItemListState extends State<LedgerItemList> {
     if (query.isNotEmpty) {
       // ignore: deprecated_member_use
       List<LedgerItem> dummyListData = List<LedgerItem>();
+      print("yeh dummy list data");
+      print(dummyListData);
       dummySearchList.forEach((item) {
         if (item.name.toLowerCase().contains(query)) {
           dummyListData.add(item);

@@ -20,18 +20,12 @@ createInvoicePdf({
   final pdf = Document();
   Center logoImage;
   // if (logoPath != null) {
-  //   var pdfImage=new PdfImage(pdf.document,
-  //     image: File(logoPath).readAsBytesSync(),
-  //     width: 40,
-  //     height: 40,
-  //   );
   //   logoImage = Center(
-  //     child: Image(
-  //        pdfImage,
-  //       ),
-  //     );
+  //     child: Image(MemoryImage(File(logoPath).readAsBytesSync()),
+  //         fit: BoxFit.contain),
+  //   );
   // } else {
-  //   logoImage = Center(child: SizedBox());
+  logoImage = Center(child: SizedBox());
   // }
 
   pdf.addPage(
@@ -77,8 +71,14 @@ createInvoicePdf({
           child: Container(
             decoration: BoxDecoration(
               border: Border(
-                  top: BorderSide(color: PdfColors.grey, width: 5),
-                  bottom: BorderSide(color: PdfColors.grey, width: 5)),
+                  top: BorderSide(
+                      color: PdfColors.grey,
+                      width: 0.5,
+                      style: BorderStyle.solid),
+                  bottom: BorderSide(
+                      color: PdfColors.grey,
+                      width: 0.5,
+                      style: BorderStyle.solid)),
             ),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

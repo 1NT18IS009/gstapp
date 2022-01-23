@@ -9,6 +9,8 @@ class LedgerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // final user = Provider.of<FirebaseUser>(context);
     final GlobalKey<ScaffoldState> _drawerKey = new GlobalKey<ScaffoldState>();
+    print("drawer key:");
+    print(_drawerKey.toString());
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
